@@ -1,3 +1,6 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 #include <stddef.h>
 
 typedef enum {
@@ -14,11 +17,14 @@ typedef struct {
   TokenType type;
   char *value;
 
-  int line;     // for debugging lines
-  int column;   // for debugging columns
+  //int line;     // for debugging lines
+  //int column;   // for debugging columns
 } Token;
 
-/* This function recieves a source object and loops through each
+/* This function recieves a source char * and loops through each
 char until it reaches '\0' */
 extern Token *tokenize(const char *source, size_t *arrTokenSize);
 
+extern char *openFile(const char *filename);
+
+#endif // !LEXER_H
