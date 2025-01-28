@@ -23,8 +23,10 @@ typedef struct {
 
 /* This function recieves a source char * and loops through each
 char until it reaches '\0' */
-extern Token *tokenize(const char *source, size_t *arrTokenSize);
+extern Token *tokenize(char *source, size_t *arrTokenSize);
 
 extern char *openFile(const char *filename);
+
+extern void *tFunc();
 
 #endif // !LEXER_H

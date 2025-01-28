@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lexer.h"
+#include "include/lexer.h"
 
 // TODO: Better error messages
-// TODO: Return should be ["x", " ", "=", " ", "1", "\0"] 
+//
+// DONE: put headers into include
+// DONE: Return should be ["x", " ", "=", " ", "1", "\0"] 
+
 char *openFile(const char *filename) {
   FILE *file = fopen(filename, "rb");
   if (!file) {
@@ -38,11 +41,12 @@ char *openFile(const char *filename) {
   return buffer;
 }
 
-Token *tokenize(const char *source, size_t *arrTokenSize) {
+Token *tokenize(char *source, size_t *arrTokenSize) {
   size_t t_Capacity = 8;  // array size 
   size_t t_Count = 0;     // token t_Count
 
   Token *tokens = malloc(t_Capacity * sizeof(Token)); // how he know??? how he know the size of struct???
+  //printf("t_Capacity: %zu; sizeof(Token): %lu", t_Capacity, sizeof(Token));
   
   if (!tokens) {
     fprintf(stderr, "\n");
@@ -69,5 +73,6 @@ int main() {
   size_t numT = 0;
   /*tokenize("Hello", &numT);*/
   char *fCont = openFile("/home/deludank/Documents/Code/C/learningC/gismo/main.gs");
+  tokenize(fCont, 0);
   /*printf("%c", *fCont);*/
 }
