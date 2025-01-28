@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/lexer.h"
+#include "include/errors.h"
 
 // DONE: Better error messages
 // DONE: put headers into include
@@ -10,7 +11,7 @@
 char *openFile(const char *filename) {
   FILE *file = fopen(filename, "rb");
   if (!file) {
-    exit(EXIT_FAILURE);
+    raiseError(E_FILE, "no open filename!");
   }
 
   fseek(file, 0, SEEK_END);

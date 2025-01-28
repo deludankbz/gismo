@@ -4,6 +4,7 @@
 // TODO: Make a well defined struct with more error 
 // messages, achieving a more complete "debugging" state.
 
+#include <stdio.h>
 typedef enum {
   E_MALLOC,   // malloc shittery
   E_FILE,     // file io shittery
@@ -22,6 +23,6 @@ static void *printError(const Error *err);
 
 static void *errTerm();
 
-extern void *raiseErr(ErrorType type, char *value);
+extern void *raiseError(ErrorType type, const char *format, ...);
 
 #endif // ERRORS_H
