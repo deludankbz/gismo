@@ -25,4 +25,6 @@ static void *errTerm();
 
 extern void *raiseError(ErrorType type, const char *format, ...);
 
+extern void *raiseWanr(ErrorType type, const char *format, ...);
+
 #endif // ERRORS_H
