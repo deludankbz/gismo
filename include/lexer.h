@@ -21,12 +21,11 @@ typedef struct {
   //int column;   // for debugging columns
 } Token;
 
+// TODO: Consider using static in these two mofos.
 /* This function recieves a source char * and loops through each
 char until it reaches '\0' */
 extern Token *tokenize(char *source, size_t *arrTokenSize);
 
 extern char *openFile(const char *filename);
-
-extern void *tFunc();
 
 #endif // !LEXER_H

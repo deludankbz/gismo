@@ -3,6 +3,7 @@
 
 // TODO: Make a well defined struct with more error 
 // messages, achieving a more complete "debugging" state.
+
 typedef enum {
   E_MALLOC,   // malloc shittery
   E_FILE,     // file io shittery

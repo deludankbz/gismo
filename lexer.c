@@ -3,8 +3,7 @@
 #include <string.h>
 #include "include/lexer.h"
 
-// TODO: Better error messages
-//
+// DONE: Better error messages
 // DONE: put headers into include
 // DONE: Return should be ["x", " ", "=", " ", "1", "\0"] 
 
@@ -67,6 +66,7 @@ Token *tokenize(char *source, size_t *arrTokenSize) {
     if (*loopPtr == '\0') {free(tokens); exit(EXIT_FAILURE);}
     loopPtr++;
   }
+  return NULL;
 }
 
 int main() {

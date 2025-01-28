@@ -25,6 +25,6 @@ void *raiseErr(ErrorType type, char *value) {
   return NULL;
 }
 
-int main() {
-  raiseErr(E_INCEPTION, "STOP RIGHT THERE CRIMINAL SCUM!");
-}
+/*int main() {*/
+/*  raiseErr(E_INCEPTION, "STOP RIGHT THERE CRIMINAL SCUM!");*/
+/*}*/
