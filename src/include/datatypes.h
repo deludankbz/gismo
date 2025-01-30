@@ -18,10 +18,10 @@ typedef struct {
 /* TODO: put into tokens.h
  * inherits struct base from 'Queue'
  */
-typedef struct TokenQueue {
+typedef struct {
   Queue base;
   struct tokenContent;
-} TokenQueue;
+} TokenQueue ;
 
 /* C reates token */
 Queue *mkQueue();

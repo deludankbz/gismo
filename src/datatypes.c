@@ -107,7 +107,7 @@ void exampleUsage() {
     addNode(newQ, index);
     index++;
   }
-  printf("newQ info:\nsize: %zu", newQ->size);
+
   printQueue(newQ, &status);
   destroyQueue(newQ);
   if (!newQ) {printf("newQ destroyed!\n");}

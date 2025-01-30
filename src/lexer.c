@@ -7,10 +7,9 @@
 #include "include/lexer.h"
 #include "include/errors.h"
 
-  // TODO: Move openFile() to io.h & io.c
-  //
-  // DONE: Better error messages
-  // DONE: put headers into include
+/* TODO: Tokenize clip->buffer
+ */
+
 void *lexAdv(Lexer *lex) {
   lex->i++;
   lex->current = lex->buffer[lex->i];
@@ -72,13 +71,11 @@ void saveToClip(Clipboard *clip, char c) {
     clip->buffer[clip->lenght] = '\0';
 }
 
-/* Lexer methods */
-/* TODO: Lexer might make mistakes; a method to redo would be great. */ 
+/* TODO: Lexer might make mistakes; a redo method would be great. */ 
 /* count chars without increasing lex->i */
-
 void *lexer(Lexer *lex) {
   Clipboard *clip = clipInit(16);
-  if (!clip) {return NULL;};
+  if (!clip) {return NULL;}
 
   while (!(lex->i >= lex->bufferSize + 1)) {
     if (isalpha(lex->current)) {
