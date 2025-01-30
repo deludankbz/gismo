@@ -2,8 +2,9 @@
 #define TOKEN_H
 
 #include <stddef.h>
-/* TODO: add more enums
-*/
+#include "datatypes.h"
+/* TODO: add more enums */
+
 typedef enum {
   T_ARBITRARY,
   T_NUMBER,
@@ -20,5 +21,13 @@ typedef struct Token {
   TokenType type;
   char *value;
 } Token;
+
+/* inherits struct base from 'Queue' */
+typedef struct {
+  Queue base;
+  struct Token;
+} TokenQueue ;
+
+
 
 #endif // !TOKEN_H

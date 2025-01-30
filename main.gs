@@ -1,2 +1,3 @@
-x = "Hello" 
-print(x)
+typedef var
+
+dosho daso

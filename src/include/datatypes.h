@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/* Queue - Linked List data type */
 typedef struct Node {
   int value;
+  char *buffer;
   struct Node *next;
 } Node;
 
@@ -15,24 +17,16 @@ typedef struct {
   Node *tail;
 } Queue;
 
-/* TODO: put into tokens.h
- * inherits struct base from 'Queue'
- */
-typedef struct {
-  Queue base;
-  struct tokenContent;
-} TokenQueue ;
-
-/* C reates token */
 Queue *mkQueue();
 
 size_t size(Queue *q);
 bool isEmpty(Queue *q);
-int peek(Queue *q, bool *status);
+
+int vpeek(Queue *q, bool *status);
+char *buffpeek(Queue *q, bool *status);
 
 void addNode(Queue *q, int value);
 int removeNode(Queue *q, bool *status);
 void destroyQueue(Queue *q);
-
 
 #endif // !DATATYPES_H

@@ -24,7 +24,8 @@ bool isEmpty(Queue *q) {
   return false;
 }
 
-int peek(Queue *q, bool *status) {
+/* peeks head->value */
+int vpeek(Queue *q, bool *status) {
   /* if Queue is empty we can't peform a peek */
   if (isEmpty(q)) { *status = false; }
 
@@ -32,6 +33,23 @@ int peek(Queue *q, bool *status) {
   return q->head->value; 
 }
 
+/* peeks char * buffer */
+char *buffpeek(Queue *q, bool *status) {
+  /* if Queue is empty we can't peform a peek */
+  if (isEmpty(q)) { *status = false; }
+
+  *status = true;
+  return q->head->buffer; 
+}
+
+/* changes q->head->buffer */
+void chBuffer(Queue *q, bool *status) {
+  /* if Queue is empty we can't peform a peek */
+  if (isEmpty(q)) { *status = false; }
+
+  *status = true;
+  return q->head->buffer;
+}
 
 void addNode(Queue *q, int value){
   Node *newNode = malloc(sizeof(Node));
