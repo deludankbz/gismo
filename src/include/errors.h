@@ -6,11 +6,15 @@
 
 #include <stdio.h>
 typedef enum {
-  E_MALLOC,   // malloc shittery
-  E_FILE,     // file io shittery
-  E_UNKOWN,   // wtf?
+  /* malloc & free related errors */
+  E_MALLOC, E_FREE,
 
-  E_INCEPTION,// so deep omg
+  /* file related problems */
+  E_FILE, E_MISSINGFILE,
+  E_UNKOWN,
+
+  /* errors inside errors.c */
+  E_INCEPTION,
 } ErrorType;
 
 typedef struct {
@@ -19,13 +23,13 @@ typedef struct {
 } Error;
 
 
-static void *printError(const Error *err);
+static void printError(const Error *err);
 
-static void *errTerm();
+static void errTerm();
 
 /* raiseError should free the pointer given */
-void *raiseError(void *address, ErrorType type, const char *format, ...);
+void raiseError(void *address, ErrorType type, char *format, ...);
 
-void *raiseWarn(ErrorType type, const char *format, ...);
+void raiseWarn(ErrorType type, char *format, ...);
 
 #endif // ERRORS_H
