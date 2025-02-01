@@ -44,6 +44,8 @@ typedef struct TreeNode {
   /* n_Buffer - value to be stored */
   char *n_Buffer;
 
+  TreeNode **node;
+
   struct TreeNode *left;
   struct TreeNode *right;
 } TreeNode;
