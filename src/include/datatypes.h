@@ -40,17 +40,24 @@ void destroyQueue(Queue *q);
  * simple tree implementation; used directly by lexer
  * to store tokenized values.
 */
+
 typedef struct TreeNode {
   /* n_Buffer - value to be stored */
   char *n_Buffer;
 
-  TreeNode **node;
-
-  struct TreeNode *left;
-  struct TreeNode *right;
+  /* tree only supports 2 children per node */
+  struct TreeNode *left, *right;
+  struct TreeNode *prev, *next;
 } TreeNode;
 
-TreeNode *addTreeNode(char *Buffer);
+typedef struct Tree {
+  TreeNode *root; // absolute first
+  TreeNode *tail; // last node created
+} Tree;
+
+static TreeNode *makeRoot(char *Buffer);
+static Tree *makeTree(TreeNode *root, char *Buffer);
+void addNode();
 
 
 #endif // !DATATYPES_H

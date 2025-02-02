@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "include/datatypes.h"
 #include "include/errors.h"
 
@@ -37,7 +39,7 @@ int peek(Queue *q, bool *status) {
 }
 
 /* adds new tail */
-void addNode(Queue *q, int value){
+void addNode(Queue *q, int value) {
   Node *newNode = malloc(sizeof(Node));
   if (!newNode) {printf("addNode!\n");}
   newNode->value = value;
@@ -122,29 +124,69 @@ void queueExample() {
   destroyQueue(newQ);
 }
 
-
-
 /* #AST - Abstract Syntax Tree datatype */
-TreeNode *addTreeNode(char *Buffer) {
-  TreeNode *newTree = malloc(sizeof(TreeNode));
-  if (newTree != NULL) {
-    newTree->left = NULL;
-    newTree->right = NULL;
-    newTree->n_Buffer = Buffer;
-  }
-  return newTree;
+static TreeNode* createNode(const char *data) {
+    TreeNode *node = malloc(sizeof(TreeNode));
+    if (!node) {raiseError(node, E_MALLOC, "TreeNode *node = malloc(sizeof(TreeNode)); went wrong!\n");}
+
+    node->n_Buffer = strdup(data);
+    node->left = node->right = NULL;
+    node->prev = node->next = NULL;
+    return node;
 }
 
-TreeNode *getRootNode(TreeNode *node); 
+Tree* createTree() {
+    Tree *tree = malloc(sizeof(Tree));
+    if (!tree) {raiseError(tree, E_MALLOC, "TreeNode *node = malloc(sizeof(TreeNode)); went wrong!\n");}
+
+    tree->root = NULL;
+    tree->tail = NULL;
+    return tree;
+}
+
+/* doesn't work yet */
+void insertNode(Tree *tree, char *format, ...) {
+  va_list args; va_start(args, format);
+
+  char *buffer = calloc(256, sizeof(char));
+  vsnprintf(buffer, sizeof(buffer), format, args);
+
+  TreeNode *node = createNode(format);
+  /* if root doesn't exist; make node be root & tail */
+  if (!tree->root) { tree->root = tree->tail = node; return; }
+  
+  if (!tree->tail->left) {
+    tree->tail->left = node;
+
+    tree->tail->left->next = NULL;
+    tree->tail->left->prev = tree->tail;
+  } else if (tree->tail->left && !tree->tail->right) {
+    tree->tail->right = node;
+
+    tree->tail->right->next = NULL;
+    tree->tail->right->prev = tree->tail;
+  } else {
+    tree->tail = tree->tail->left;
+  }
+  va_end(args);
+} 
+
+
+/* destroy tree */
+void destroyTree(TreeNode *root) {
+  if (!root) return;
+  destroyTree(root->left);
+  if (root->n_Buffer) {free(root->n_Buffer);} free(root);
+
+  destroyTree(root->right);
+}
 
 /* tab printer; it's static to make that this abomination doesn't scape this file */
 static void pTabs(int numTabs) { for (int i = 0; i < numTabs; i++) { printf("  "); }}
 
 /* prints tree */
 static void __fetchTree__(TreeNode *rootNode, int tabs, int isRight) {
-  if (rootNode == NULL) {
-    return;
-  }
+  if (rootNode == NULL) { return; }
   pTabs(tabs);
 
   /* branch connector; if true > "└─" else false "├─"*/
@@ -152,7 +194,7 @@ static void __fetchTree__(TreeNode *rootNode, int tabs, int isRight) {
   /* just prints root node */
   printf("%s\n", rootNode->n_Buffer);
 
-  /* prints left or right */
+  /* prints left & right */
   if (rootNode->left || rootNode->right) {
     __fetchTree__(rootNode->left, (tabs + 1), 0);
     __fetchTree__(rootNode->right, (tabs + 1), 1);
@@ -165,22 +207,12 @@ void fetchTree(TreeNode *rootNode) {
 }
 
 static void example_TreeNode() {
-  TreeNode *n1 = addTreeNode("Program");
-  TreeNode *n2 = addTreeNode("VarDeclaration");
-  TreeNode *n3 = addTreeNode("INT");
-  TreeNode *n4 = addTreeNode("'4'");
-  TreeNode *n5 = addTreeNode("5");
-  TreeNode *n6 = addTreeNode("6");
+  Tree *newTree = createTree();
 
-  n1->left = n2;
-  n2->left = n3;
-  n2->right = n4;
+  for (int i = 0; i < 5; i++) {
+    insertNode(newTree, "test %s \n", i);
+  }
 
-  fetchTree(n1);
-
-  free(n1);
-  free(n2);
-  free(n3);
-  free(n4);
-  free(n5);
+  fetchTree(newTree->root);
+  destroyTree(newTree->root);
 }

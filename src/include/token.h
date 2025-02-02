@@ -10,7 +10,7 @@ typedef enum {
   T_NUMBER,
   T_IDENT,
   T_EQUALS,
-  T_OPENPAREN, T_CLOSEPAREN,
+  T_OPENBLOCK, T_CLOSEBLOCK,
 
   T_BINARY,  // +, -, /, //, *, ** etc...  
   T_TERNARY, // Conditional; ==; !=; or, and etc...
@@ -28,6 +28,8 @@ typedef struct {
   struct Token;
 } TokenQueue ;
 
+const char *makeToken(char *source);
 
+char *concat(char *source, ...);
 
 #endif // !TOKEN_H

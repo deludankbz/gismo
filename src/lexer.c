@@ -5,9 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/lexer.h"
+#include "include/token.h"
 #include "include/errors.h"
 
-/* TODO: Tokenize clip->buffer
+/* TODO: Tokenize clip->buffer (more or less)
  */
 
 void *lexAdv(Lexer *lex) {
@@ -71,18 +72,19 @@ void saveToClip(Clipboard *clip, char c) {
     clip->buffer[clip->lenght] = '\0';
 }
 
-/* TODO: Lexer might make mistakes; a redo method would be great. */ 
+/* NOTE: TODO: Lexer might make mistakes; a redo method would be great. */ 
 /* count chars without increasing lex->i */
 void *lexer(Lexer *lex) {
   Clipboard *clip = clipInit(16);
   if (!clip) {return NULL;}
 
   while (!(lex->i >= lex->bufferSize + 1)) {
-    if (isalpha(lex->current)) {
+    if (isalnum(lex->current)) {
       saveToClip(clip, lex->current);
       lexAdv(lex);
     } else if (lex->current == ' ' || lex->current == '\n') {
-      printf("\n%s", clip->buffer);
+      printf("%s", makeToken(clip->buffer));
+      /*printf("\n%s", clip->buffer);*/
       clearBuffer(clip);
       lexAdv(lex);
     } else {
