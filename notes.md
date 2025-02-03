@@ -1,5 +1,11 @@
+## Notes
+### Today's goals 03/02/2025 
 
-TODO: cmake for autocompilation.
-don't forget to 'gcc lexer.c errors.c ... -o'; INCLUDE all c files when compile
+1. Lexer
+- Lexer shouldn't only separate by ' ' but for *TypeChecking*
+    - Make type structure with int, str, etc...
+2. Simple AST
+- Try getting tokens inside of the AST
 
-Imporved raiseError - it frees the pointer and exits
+### TODOs
+- Why use pragma?

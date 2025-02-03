@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "include/token.h"
-#include "include/datatypes.h"
 
 char *concat(char *source, ...) {
   va_list args; va_start(args, source);

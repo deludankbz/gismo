@@ -9,8 +9,8 @@
 typedef struct {
   char current;           // current char
   int i;                  // counter
-  size_t bufferSize;      // sizeof(const char *source) 
-  const char *buffer;      // Needle content
+  size_t bufferSize;      // sizeof(const char *buffer) 
+  const char *buffer;     // content
 } Lexer;
 
 typedef struct {
@@ -19,16 +19,23 @@ typedef struct {
   char * buffer;
 } Clipboard;
 
-// TODO: Consider using static in these two mofos (tokenize & openFile).
+/* LEXER */
 /* This function recieves a source char * and loops through each
 char until it reaches '\0' */
 extern Lexer *lexInit(char *source);
 
-static void *lexAdv(Lexer *lex);
+static void lexAdv(Lexer *lex);
 /*static void *lexSkip(Lexer *lex);*/
 
 void *lexer(Lexer *lex);
 
+/* CLIPBOARD */
 Clipboard *clipInit(int iSize);
+
+void freeClip(Clipboard *clip); 
+
+void clearBuffer(Clipboard *clip);
+
+void saveToClip(Clipboard *clip, char c);
 
 #endif // !LEXER_H

@@ -11,7 +11,7 @@
 /* TODO: Tokenize clip->buffer (more or less)
  */
 
-void *lexAdv(Lexer *lex) {
+void lexAdv(Lexer *lex) {
   lex->i++;
   lex->current = lex->buffer[lex->i];
 }

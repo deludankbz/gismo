@@ -18,18 +18,17 @@ typedef enum {
 } TokenType;
 
 typedef struct Token {
+  struct T_INT{
+    TokenType type;
+
+  };
   TokenType type;
   char *value;
 } Token;
 
 /* inherits struct base from 'Queue' */
-typedef struct {
-  Queue base;
-  struct Token;
-} TokenQueue ;
-
 const char *makeToken(char *source);
 
-char *concat(char *source, ...);
+static char *concat(char *source, ...);
 
 #endif // !TOKEN_H
