@@ -10,7 +10,8 @@
 #include "include/token.h"
 #include "include/errors.h"
 
-/* TODO Tokenize clip->buffer (more or less) */
+/* TODO collectBlock() -> collector for ";';(;[;{ blocks
+ */
 
 void lexAdv(Lexer *lex) {
   lex->i++;
