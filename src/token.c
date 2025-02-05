@@ -53,7 +53,7 @@ TokenType checkSymbols(char c, char nextC) {
   }
 }
 
-Token *generateToken(char *source) {
+Token *generateToken(char *source, TokenType tType) {
   Token *tempToken = malloc(sizeof(Token));
 
   return tempToken;

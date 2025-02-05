@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
+
 #include "include/lexer.h"
 #include "include/token.h"
 #include "include/errors.h"
@@ -26,13 +28,13 @@ Lexer *lexInit(char *source) {
   return lex;
 }
 
-char *collectString(Lexer *lex) {
+char *collectString(Lexer *lex, char c) {
   /* FIX WILL CAUSE BUFFFER OVERFLOW!!! */
   char *buffer = calloc(256, sizeof(char));
   buffer[strlen(buffer)] = '\0';
 
   lexAdv(lex);
-  for (int i = 0; lex->current != '"'; i++) { buffer[i] = lex->current; lexAdv(lex); }
+  for (int i = 0; lex->current != c; i++) { buffer[i] = lex->current; lexAdv(lex); }
   lexAdv(lex);
   return buffer;
 }
@@ -77,8 +79,17 @@ void lexer(Lexer *lex) {
 
     /* NOTE collectString can be useful for collecting stuff inside blocks */
     else if (lex->current == '"') {
-      char *tempStr = collectString(lex);
+      char *tempStr = collectString(lex, '"');
       printf("%s is string!\n", tempStr);
+      free(tempStr);
+    }
+
+    /* check for blocks of text inside of '"([{*/
+    else if (lex->current == '(') {
+      printf("%c is paren.!\n", '(');
+      char *tempStr = collectString(lex, ')');
+      printf("%s is inside parens.!\n", tempStr);
+      printf("%c is paren.!\n", ')');
       free(tempStr);
     }
 

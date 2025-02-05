@@ -20,7 +20,7 @@ extern Lexer *lexInit(char *source);
 static void lexAdv(Lexer *lex);
 
 char *collectNumber(Lexer *lex);
-char *collectString(Lexer *lex);
+char *collectString(Lexer *lex, char c);
 char *collectKeyword(Lexer *lex);
 
 /* This function recieves a source char * and loops through each

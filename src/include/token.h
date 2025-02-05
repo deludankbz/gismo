@@ -84,7 +84,7 @@ typedef struct Token {
 
 TokenType checkSymbols(char c, char nextC);
 
-Token *generateToken(char* source);
+Token *generateToken(char *source, TokenType tType);
 
 const char *makeToken(char *source, TokenType tType);
 
