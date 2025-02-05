@@ -6,7 +6,7 @@
 
 /* Queue - Linked List data type */
 typedef struct Node {
-  /* TODO: FIX consider changing int value to a pointer for easier memory access & manipulation */
+  /* TODO FIX consider changing int value to a pointer for easier memory access & manipulation */
   int value;
   char *buffer;
   struct Node *next;
@@ -39,7 +39,7 @@ void destroyQueue(Queue *q);
 /* AST - Abstract Syntax Tree datatype.
  * simple tree implementation; used directly by lexer
  * to store tokenized values.
-*/
+ */
 
 typedef struct TreeNode {
   /* n_Buffer - value to be stored */

@@ -8,7 +8,7 @@
 #include "include/token.h"
 #include "include/errors.h"
 
-/* TODO: Tokenize clip->buffer (more or less) */
+/* TODO Tokenize clip->buffer (more or less) */
 
 void lexAdv(Lexer *lex) {
   lex->i++;
@@ -27,7 +27,7 @@ Lexer *lexInit(char *source) {
 }
 
 char *collectString(Lexer *lex) {
-  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  /* FIX WILL CAUSE BUFFFER OVERFLOW!!! */
   char *buffer = calloc(256, sizeof(char));
   buffer[strlen(buffer)] = '\0';
 
@@ -38,7 +38,7 @@ char *collectString(Lexer *lex) {
 }
 
 char *collectKeyword(Lexer *lex) {
-  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  /* FIX WILL CAUSE BUFFFER OVERFLOW!!! */
   char *buffer = calloc(64, sizeof(char));
   buffer[strlen(buffer)] = '\0';
 
@@ -47,7 +47,7 @@ char *collectKeyword(Lexer *lex) {
 }
 
 char *collectNumber(Lexer *lex) {
-  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  /* FIX WILL CAUSE BUFFFER OVERFLOW!!! */
   char *buffer = calloc(16, sizeof(char));
   buffer[strlen(buffer)] = '\0';
 
@@ -75,6 +75,7 @@ void lexer(Lexer *lex) {
       free(tempKeyword);
     }
 
+    /* NOTE collectString can be useful for collecting stuff inside blocks */
     else if (lex->current == '"') {
       char *tempStr = collectString(lex);
       printf("%s is string!\n", tempStr);
@@ -82,7 +83,7 @@ void lexer(Lexer *lex) {
     }
 
     /* ends program if EOF detected */
-    else if (/*lex->current == 10 &&*/ lex->buffer[lex->i + 1] == '\0' && lex->buffer[lex->i + 2] == '\0') {
+    else if (lex->current == '\0' && lex->buffer[lex->i + 1] == '\0') {
       printf("reached EOF!\n"); return;
     } 
     else {

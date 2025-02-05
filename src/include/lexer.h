@@ -11,8 +11,9 @@ typedef struct {
   const char *buffer;     // content
 } Lexer;
 
-/* LEXER */
-/* standard init function; returns a lexer object */
+/* LEXER 
+ * standard init function; returns a lexer object
+ */
 extern Lexer *lexInit(char *source);
 
 /* advance current char and increase count */
@@ -23,7 +24,8 @@ char *collectString(Lexer *lex);
 char *collectKeyword(Lexer *lex);
 
 /* This function recieves a source char * and loops through each
-char until it reaches \n;\0;\0 */
+ * char until it reaches \n;\0;\0
+ */
 void lexer(Lexer *lex);
 
 #endif // !LEXER_H

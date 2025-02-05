@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include "include/errors.h"
 
-/* Prints an error. How magical. */
+/* prints an error. how magical. */
 static void printError(const Error *err) { printf("[%u] - %s\n", err->type, err->value); }
 
-/* Exits the program */
+/* exits the program */
 static void errTerm() { exit(EXIT_FAILURE); }
 
 /* raises an error message and quits the program */

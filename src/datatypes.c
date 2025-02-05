@@ -7,10 +7,10 @@
 #include "include/errors.h"
 
 /* #Queue datatype - Linked list
- * TODO: new methods; findByValue(); removeByValue();
- * TODO: FIX: consider changing int value to char *.
- * NOTE: we NEED to fetch nodes by ADDRESS and NOT BY FRGGIN INT VALUE!
-*/ 
+ * TODO new methods; findByValue(); removeByValue();
+ * TODO FIX consider changing int value to char *.
+ * NOTE we NEED to fetch nodes by ADDRESS and NOT BY FRGGIN INT VALUE!
+ */ 
 
 Queue *mkQueue() {
   Queue *q = malloc(sizeof(Queue));
@@ -109,7 +109,7 @@ void queueExample() {
   // our objective is just to addNode and change its buffer 
   // and then safely free it
   addNode(newQ, 66);
-  /* NOTE: always change buffer of tail */
+  /* NOTE always change buffer of tail */
   newQ->tail->buffer = "test here!";                // maybe malloc wasn't so usefull
   printf("%s\n", newQ->tail->buffer);               // prints tail (last node)
 

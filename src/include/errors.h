@@ -1,8 +1,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-// TODO: Make a well defined struct with more error 
-// messages, achieving a more complete "debugging" state.
+/* TODO make more ErrorTypes */
 
 #include <stdio.h>
 typedef enum {

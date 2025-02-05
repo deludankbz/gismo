@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "include/errors.h"
 
+/* opens a file. wow!
+ * NOTE *openFile retuns a buffer with a double NULL terminator; it's not a bug, it's a feature 
+*/
 char *openFile(const char *filename) {
   FILE *file = fopen(filename, "rb");
   if (!file) { raiseWarn(E_UNKOWN, "buffLooper went wrong!\n");exit(EXIT_FAILURE); }

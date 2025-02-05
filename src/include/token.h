@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 #include "datatypes.h"
-/* TODO: add more enums */
+/* TODO add more enums */
 
 typedef enum {
   // Single-character symbols

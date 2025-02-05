@@ -21,6 +21,7 @@ char *concat(char *source, ...) {
   return buffer;
 }
 
+/* WHAT THE HEEEEEEEEEEEEEE- */
 TokenType checkSymbols(char c, char nextC) {
   switch (c) {
     case '(': return T_LPAREN;
@@ -47,8 +48,6 @@ TokenType checkSymbols(char c, char nextC) {
     case '?': return T_QUESTION;
     case ':': return T_COLON;
     
-    // tests
-    case ' ': return T_SPACE;
     // for unexpected characters
     default: return T_ARBITRARY;
   }
