@@ -7,7 +7,7 @@
 */
 char *openFile(const char *filename) {
   FILE *file = fopen(filename, "rb");
-  if (!file) { raiseWarn(E_UNKOWN, "buffLooper went wrong!\n");exit(EXIT_FAILURE); }
+  if (!file) { raiseWarn(E_MISSINGFILE, "no file!\n"); exit(EXIT_FAILURE); }
 
   fseek(file, 0, SEEK_END);
   // fSize + null terminator
