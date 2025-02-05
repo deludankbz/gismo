@@ -6,28 +6,87 @@
 /* TODO: add more enums */
 
 typedef enum {
-  T_ARBITRARY,
-  T_NUMBER,
-  T_IDENT,
-  T_EQUALS,
-  T_OPENBLOCK, T_CLOSEBLOCK,
+  // Single-character symbols
+  T_LPAREN,    // (
+  T_RPAREN,    // )
+  T_LBRACE,    // {
+  T_RBRACE,    // }
+  T_LBRACKET,  // [
+  T_RBRACKET,  // ]
+  T_SEMICOLON, // ;
+  T_COMMA,     // ,
+  T_DOT,       // .
 
-  T_BINARY,  // +, -, /, //, *, ** etc...  
-  T_TERNARY, // Conditional; ==; !=; or, and etc...
-  T_UNKOWN
+  // Operators
+  T_PLUS,      // +
+  T_MINUS,     // -
+  T_STAR,      // *
+  T_SLASH,     // /
+  T_PERCENT,   // %
+  T_AMP,       // &
+  T_PIPE,      // |
+  T_CARET,     // ^
+  T_DIFF,      // !
+  T_EQUAL,     // =
+  T_LESS,      // <
+  T_GREATER,   // >
+
+  // Two-character operators
+  T_ISEQUAL,    // ==
+  T_ISDIFF,     // !=
+  T_LESS_EQUAL,     // <=
+  T_GREATER_EQUAL,  // >=
+  T_PLUS_EQUAL,     // +=
+  T_MINUS_EQUAL,    // -=
+  T_STAR_EQUAL,     // *=
+  T_SLASH_EQUAL,    // /=
+  T_PERCENT_EQUAL,  // %=
+
+  // Logical operators
+  T_AND,    // &&
+  T_OR,     // ||
+
+  // Ternary operator
+  T_QUESTION,    // ?
+  T_COLON,       // :
+
+  // Keywords
+  T_VAR,    // var
+  T_LET,    // let
+  T_IF,     // if
+  T_ELSE,   // else
+  T_WHILE,  // while
+  T_FOR,    // for
+  T_RETURN, // return
+  T_FUNC,   // func
+  T_TRUE,   // true
+  T_FALSE,  // false
+  T_NIL,    // nil
+  T_PRINT,  // print
+  T_CONST,  // const
+
+  // Identifiers and literals
+  T_IDENTIFIER,
+  T_NUMBER,
+  T_STRING,
+
+  // Misc
+  T_EOF, T_ARBITRARY,
+
+  // testing
+  T_SPACE
 } TokenType;
 
 typedef struct Token {
-  struct T_INT{
-    TokenType type;
-
-  };
   TokenType type;
   char *value;
 } Token;
 
-/* inherits struct base from 'Queue' */
-const char *makeToken(char *source);
+TokenType checkSymbols(char c, char nextC);
+
+Token *generateToken(char* source);
+
+const char *makeToken(char *source, TokenType tType);
 
 static char *concat(char *source, ...);
 

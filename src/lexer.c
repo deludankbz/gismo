@@ -8,8 +8,7 @@
 #include "include/token.h"
 #include "include/errors.h"
 
-/* TODO: Tokenize clip->buffer (more or less)
- */
+/* TODO: Tokenize clip->buffer (more or less) */
 
 void lexAdv(Lexer *lex) {
   lex->i++;
@@ -27,69 +26,68 @@ Lexer *lexInit(char *source) {
   return lex;
 }
 
-/* clipInit takes a Clipboard and an InitSize */
-Clipboard *clipInit(int iSize) {
-  Clipboard *clip = malloc(sizeof(Clipboard));
-  if (!clip) {raiseError(clip, E_MALLOC, "failed to allocate memory for clipboard.");}
-  clip->buffer = malloc(iSize);
-  if (!clip->buffer) {raiseError(clip->buffer, E_MALLOC, "failed to allocate memory for clip buffer.");}
+char *collectString(Lexer *lex) {
+  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  char *buffer = calloc(256, sizeof(char));
+  buffer[strlen(buffer)] = '\0';
 
-  clip->lenght = 0;
-  clip->buffsize = iSize;
-  clip->buffer[0] = '\0';
-
-  return clip;
+  lexAdv(lex);
+  for (int i = 0; lex->current != '"'; i++) { buffer[i] = lex->current; lexAdv(lex); }
+  lexAdv(lex);
+  return buffer;
 }
 
-void freeClip(Clipboard *clip) { 
-  if (clip) {
-    free(clip->buffer);
-    free(clip);
-  }
+char *collectKeyword(Lexer *lex) {
+  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  char *buffer = calloc(64, sizeof(char));
+  buffer[strlen(buffer)] = '\0';
+
+  for (int i = 0; isalpha(lex->current); i++) { buffer[i] = lex->current; lexAdv(lex); }
+  return buffer;
 }
 
-void clearBuffer(Clipboard *clip) {
-  free(clip->buffer);
-  clip->buffer = malloc(clip->buffsize);
-  if (!clip->buffer) {raiseError(clip, E_MALLOC, "failed to alloc new clipboard buffer.");}
+char *collectNumber(Lexer *lex) {
+  /* FIX: WILL CAUSE BUFFFER OVERFLOW!!! */
+  char *buffer = calloc(16, sizeof(char));
+  buffer[strlen(buffer)] = '\0';
 
-  clip->lenght = 0;  
-  clip->buffer[0] = '\0';
+  for (int i = 0; isdigit(lex->current); i++) { buffer[i] = lex->current; lexAdv(lex); }
+  return buffer;
 }
 
-/* save char to buffer to collect and retrun string */
-void saveToClip(Clipboard *clip, char c) {
-    if (clip->lenght + 1 >= clip->buffsize) {
-        clip->buffsize *= 2;
-        char *newBuffer = realloc(clip->buffer, clip->buffsize);
-        if (!newBuffer) {
-            raiseError(NULL, E_MALLOC, "failed to reallocate clipboard buffer.");
-            return;
-        }
-        clip->buffer = newBuffer;
-    }
-    clip->buffer[clip->lenght++] = c;
-    clip->buffer[clip->lenght] = '\0';
-}
-
-/* NOTE: TODO: Lexer might make mistakes; a redo method would be great. */ 
-/* count chars without increasing lex->i */
-void *lexer(Lexer *lex) {
-  Clipboard *clip = clipInit(16);
-  if (!clip) {return NULL;}
-
+void lexer(Lexer *lex) {
+  printf("\n----\n");
   while (!(lex->i >= lex->bufferSize + 1)) {
-    if (isalnum(lex->current)) {
-      saveToClip(clip, lex->current);
-      lexAdv(lex);
-    } else if (lex->current == ' ' || lex->current == '\n') {
-      printf("%s", makeToken(clip->buffer));
-      /*printf("\n%s", clip->buffer);*/
-      clearBuffer(clip);
-      lexAdv(lex);
-    } else {
-      lexAdv(lex);
+    /* check for SPACE or newLine */
+    if (lex->current == 32 || lex->current == 10) { lexAdv(lex); }
+
+    /* collects numbers */
+    else if (isdigit(lex->current)) {
+      char *temp = collectNumber(lex);
+      printf("%s is number!\n", temp);
+      free(temp);
     } 
+
+    /* collects keywords */
+    else if (isalpha(lex->current)) {
+      char *tempKeyword = collectKeyword(lex);
+      printf("%s is alpha!\n", tempKeyword);
+      free(tempKeyword);
+    }
+
+    else if (lex->current == '"') {
+      char *tempStr = collectString(lex);
+      printf("%s is string!\n", tempStr);
+      free(tempStr);
+    }
+
+    /* ends program if EOF detected */
+    else if (/*lex->current == 10 &&*/ lex->buffer[lex->i + 1] == '\0' && lex->buffer[lex->i + 2] == '\0') {
+      printf("reached EOF!\n"); return;
+    } 
+    else {
+      printf("%c is symbol!\n", lex->current);
+      lexAdv(lex);
+    }
   }
-  freeClip(clip);
 }

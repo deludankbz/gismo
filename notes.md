@@ -9,3 +9,10 @@
 
 ### TODOs
 - Why use pragma?
+
+### WHART?
+When reading a file, the EOF shows up as 10;0;0
+``` 
+ASCII |   10    ;  0  ;  0
+HUMAN |LINE FEED, NULL, NULL
+```

@@ -1,3 +1,4 @@
-fhsiofs fsnbofs fsnop
-x = 1 + 2 * 3
-print("hodshdios")
+y = 13 + 2
+x = "hello world!";
+print(x);
+
