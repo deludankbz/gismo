@@ -5,8 +5,9 @@
 #include "token.h"
 
 
-/* ===== */
-/* LEXER */
+/* LEXER
+ */
+
 
 typedef struct {
   char current;           // current char
@@ -25,8 +26,9 @@ static void lexAdv(Lexer *lex);
 void lexer(Lexer *lex);
 
 
-/* ========= */
-/* COLLECTOR */
+/* COLLECTOR
+ */
+
 
 typedef struct {
   char* collectorBuffer;

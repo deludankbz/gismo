@@ -5,6 +5,11 @@
 #include <string.h>
 #include "include/token.h"
 
+
+/* TOKEN
+ */
+
+
 char *concat(char *source, ...) {
   va_list args; va_start(args, source);
 
@@ -48,7 +53,7 @@ TokenType checkSymbols(char c, char nextC) {
     case '?': return T_QUESTION;
     case ':': return T_COLON;
     
-    // for unexpected characters
+    /* for unexpected characters */
     default: return T_ARBITRARY;
   }
 }

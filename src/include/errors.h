@@ -1,7 +1,10 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-/* TODO make more ErrorTypes */
+
+/* ERRORS
+ */
+
 
 #include <stdio.h>
 typedef enum {

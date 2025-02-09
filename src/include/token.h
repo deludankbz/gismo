@@ -6,7 +6,7 @@
 /* TODO add more enums */
 
 typedef enum {
-  // Single-character symbols
+  /* Single-character symbols */
   T_LPAREN,    // (
   T_RPAREN,    // )
   T_LBRACE,    // {
@@ -17,7 +17,7 @@ typedef enum {
   T_COMMA,     // ,
   T_DOT,       // .
 
-  // Operators
+  /* Operators */
   T_PLUS,      // +
   T_MINUS,     // -
   T_STAR,      // *
@@ -31,7 +31,7 @@ typedef enum {
   T_LESS,      // <
   T_GREATER,   // >
 
-  // Two-character operators
+  /* Two-character operators */
   T_ISEQUAL,    // ==
   T_ISDIFF,     // !=
   T_LESS_EQUAL,     // <=
@@ -42,15 +42,15 @@ typedef enum {
   T_SLASH_EQUAL,    // /=
   T_PERCENT_EQUAL,  // %=
 
-  // Logical operators
+  /* Logical operators */
   T_AND,    // &&
   T_OR,     // ||
 
-  // Ternary operator
+  /* Ternary operator */
   T_QUESTION,    // ?
   T_COLON,       // :
 
-  // Keywords
+  /* Keywords */
   T_VAR,    // var
   T_LET,    // let
   T_IF,     // if
@@ -65,15 +65,15 @@ typedef enum {
   T_PRINT,  // print
   T_CONST,  // const
 
-  // Identifiers and literals
+  /* Identifiers and literals */
   T_IDENTIFIER,
   T_NUMBER,
   T_STRING,
 
-  // Misc
+  /* Misc */
   T_EOF, T_ARBITRARY,
 
-  // testing
+  /* testing */
   T_SPACE
 } TokenType;
 

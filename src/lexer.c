@@ -9,17 +9,21 @@
 #include "include/lexer.h"
 #include "include/errors.h"
 
+
+/* FIX:
+ *    handle buffer overflow for collector functions.
+ */
+
+
 /* LEXER DECLARATIONS
  *
  * NOTE: for collect functions:
  *    sizeof() Vs strlen() - sizeof is a "compile-time function", running
- * it multiple times (likely in a loop), could and will cause performance issues
- * as well safety issues like buffer overflow attacks.
+ *    it multiple times (likely in a loop), could and will cause performance issues
+ *    as well safety issues like buffer overflow attacks.
  *
- * FIX:
- *    refactor stuff like buffer col_maxNumSize ... into their own collector struct.
- *
- * TODO: collectBlock() -> collector for ";';(;[;{ blocks
+ * DONE: refactor stuff like buffer col_maxNumSize ... into their own collector struct.
+ * 
  */
 
 void lexAdv(Lexer *lex) {

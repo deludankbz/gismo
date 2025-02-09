@@ -6,7 +6,8 @@
 #include "include/datatypes.h"
 #include "include/errors.h"
 
-/* #Queue datatype - Linked list
+/* LINKED LIST (QUEUE)
+ *
  * TODO new methods; findByValue(); removeByValue();
  * TODO FIX consider changing int value to char *.
  * NOTE we NEED to fetch nodes by ADDRESS and NOT BY FRGGIN INT VALUE!
@@ -27,11 +28,11 @@ size_t size(Queue *q) { return q->size; }
 
 bool isEmpty(Queue *q) { if (q->size == 0) { return true; } return false; }
 
-/* peek node value */
+/* peek node value. */
 int nodePeek(Node *node) { return node->value; }
 
 int peek(Queue *q, bool *status) {
-  /* if Queue is empty we can't peform a peek */
+  /* if Queue is empty we can't peform a peek. */
   if (isEmpty(q)) { *status = false; }
 
   *status = true;
@@ -55,7 +56,7 @@ void addNode(Queue *q, int value) {
   q->size++;
 }
 
-/* only removes head */
+/* only removes head. */
 int removeNode(Queue *q, bool *status) {
   if (isEmpty(q)) { *status = false; return 0; }
   *status = true;
@@ -83,8 +84,7 @@ void destroyQueue(Queue *q) {
   free(q);
 }
 
-// not implemented
-
+/* not implemented */
 /* TODO: better print or return char* string ¯_(ツ)_/¯ */
 void printQueue(Queue *q, bool *status) {
   if (isEmpty(q)) { *status = false; return; }
@@ -124,7 +124,13 @@ void queueExample() {
   destroyQueue(newQ);
 }
 
-/* #AST - Abstract Syntax Tree datatype */
+
+/* AST
+ *
+ * Abstract Syntax Tree datatype
+ * NOTE FIX: doesn't work. this shit is hard wtf.
+ */
+
 static TreeNode* createNode(const char *data) {
     TreeNode *node = malloc(sizeof(TreeNode));
     if (!node) {raiseError(node, E_MALLOC, "TreeNode *node = malloc(sizeof(TreeNode)); went wrong!\n");}

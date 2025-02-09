@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include "include/errors.h"
 
+/* ERRORS
+ */
+
 /* prints an error. how magical. */
 static void printError(const Error *err) { printf("[%u] - %s\n", err->type, err->value); }
 
@@ -43,7 +46,7 @@ void raiseWarn(ErrorType type, char *format, ...) {
   } 
 
   /* how can you handle something that you don't know yet? */
-  err->type = type; err->value = buffer; // you dirty little bastard. BASTARd!
+  err->type = type; err->value = buffer; // i'll find you! you BASTARd!
   free(buffer);
   printError(err);
   

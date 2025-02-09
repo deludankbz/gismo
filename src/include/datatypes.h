@@ -4,9 +4,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/* Queue - Linked List data type */
+
+/* LINKED LIST (QUEUE)
+ * TODO FIX: consider changing int value to a pointer for easier memory access & manipulation
+ */
+
+
 typedef struct Node {
-  /* TODO FIX consider changing int value to a pointer for easier memory access & manipulation */
   int value;
   char *buffer;
   struct Node *next;
@@ -36,10 +40,16 @@ void addNode(Queue *q, int value);
 int removeNode(Queue *q, bool *status);
 void destroyQueue(Queue *q);
 
-/* AST - Abstract Syntax Tree datatype.
+
+/* AST - ABSTRACT SYNTAX TREE DATATYPE
+ *
+ * NOTE: 
+ *    doesn't work yet.
+ * 
  * simple tree implementation; used directly by lexer
  * to store tokenized values.
  */
+
 
 typedef struct TreeNode {
   /* n_Buffer - value to be stored */
