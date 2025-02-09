@@ -7,7 +7,6 @@
 typedef enum {
   /* malloc & free related errors */
   E_MALLOC, E_FREE,
-  E_BUFFER_OVERFLOW,
 
   /* file related problems */
   E_FILE, E_MISSINGFILE,
