@@ -4,6 +4,10 @@
 #include <stddef.h>
 #include "token.h"
 
+
+/* ===== */
+/* LEXER */
+
 typedef struct {
   char current;           // current char
   int i;                  // counter
@@ -11,21 +15,33 @@ typedef struct {
   const char *buffer;     // content
 } Lexer;
 
-/* LEXER 
- * standard init function; returns a lexer object
- */
+/* standard init for collector. */
 extern Lexer *lexInit(char *source);
 
-/* advance current char and increase count */
+/* advances lexer's current char. */
 static void lexAdv(Lexer *lex);
 
-char *collectNumber(Lexer *lex);
-char *collectString(Lexer *lex, char c);
-char *collectKeyword(Lexer *lex);
-
-/* This function recieves a source char * and loops through each
- * char until it reaches \n;\0;\0
- */
+/* actual lexer function; the biggest surely. */
 void lexer(Lexer *lex);
+
+
+/* ========= */
+/* COLLECTOR */
+
+typedef struct {
+  char* collectorBuffer;
+  size_t colLegnth;
+  size_t colBuffSize;
+} Collector;
+
+/* standard init for collector */
+Collector *collectorInit();
+
+/* these collect chars until current isn't what they're supposed to collect. */
+char *collectNumber(Lexer *lex, Collector *col);
+char *collectString(Lexer *lex, Collector *col, char c);
+char *collectKeyword(Lexer *lex, Collector *col);
+
+void *freeCollector (Collector *col);
 
 #endif // !LEXER_H
