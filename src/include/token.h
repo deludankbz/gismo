@@ -2,7 +2,6 @@
 #define TOKEN_H
 
 #include <stddef.h>
-#include "datatypes.h"
 /* TODO add more enums */
 
 typedef enum {
@@ -16,6 +15,11 @@ typedef enum {
   T_SEMICOLON, // ;
   T_COMMA,     // ,
   T_DOT,       // .
+  
+  /* Quotes */
+  T_DB_QUOTES, // "
+  T_QUOTE,     // ' 
+
 
   /* Operators */
   T_PLUS,      // +
@@ -82,10 +86,13 @@ typedef struct Token {
   char *value;
 } Token;
 
-TokenType checkSymbols(char c, char nextC);
+/*char *checkBlocks(char c);*/
 
-Token *generateToken(char *source, TokenType tType);
+TokenType checkSymbol(char c);
+TokenType checkDoublechar(char c, char nextC);
+TokenType checkBlock(char c);
 
+Token *generateToken(char *source, TokenType tType, size_t maxSize);
 const char *makeToken(char *source, TokenType tType);
 
 static char *concat(char *source, ...);

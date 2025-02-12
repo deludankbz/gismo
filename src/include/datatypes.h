@@ -1,6 +1,7 @@
 #ifndef DATATYPES_H
 #define DATATYPES_H
 
+#include "token.h"
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -12,7 +13,7 @@
 
 typedef struct Node {
   int value;
-  char *buffer;
+  Token *tBuffer;
   struct Node *next;
 } Node;
 
@@ -28,46 +29,17 @@ typedef struct Buffer {
   char * buffer;
 } Buffer;
 
-Queue *mkQueue();
+Queue *createQueue();
 
 size_t size(Queue *q);
 bool isEmpty(Queue *q);
 
-int vpeek(Queue *q, bool *status);
-char *buffpeek(Queue *q, bool *status);
+int peek(Queue *q, bool *status);
 
-void addNode(Queue *q, int value);
+void addNode(Queue *q, int value, Token *newToken);
 int removeNode(Queue *q, bool *status);
 void destroyQueue(Queue *q);
 
-
-/* AST - ABSTRACT SYNTAX TREE DATATYPE
- *
- * NOTE: 
- *    doesn't work yet.
- * 
- * simple tree implementation; used directly by lexer
- * to store tokenized values.
- */
-
-
-typedef struct TreeNode {
-  /* n_Buffer - value to be stored */
-  char *n_Buffer;
-
-  /* tree only supports 2 children per node */
-  struct TreeNode *left, *right;
-  struct TreeNode *prev, *next;
-} TreeNode;
-
-typedef struct Tree {
-  TreeNode *root; // absolute first
-  TreeNode *tail; // last node created
-} Tree;
-
-static TreeNode *makeRoot(char *Buffer);
-static Tree *makeTree(TreeNode *root, char *Buffer);
-void addNode();
-
+void printQueue(Queue *q, bool *status);
 
 #endif // !DATATYPES_H

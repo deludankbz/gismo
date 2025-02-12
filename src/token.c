@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdarg.h>
-#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "include/token.h"
+#include "include/errors.h"
 
 
-/* TOKEN
- */
+/* TOKEN */
 
 
 char *concat(char *source, ...) {
@@ -26,9 +25,54 @@ char *concat(char *source, ...) {
   return buffer;
 }
 
-/* WHAT THE HEEEEEEEEEEEEEE- */
-TokenType checkSymbols(char c, char nextC) {
+/* check if current char is " ' ( [ { */
+TokenType checkBlock(char c) {
   switch (c) {
+    /* inline blocks */
+    case '\'': return T_QUOTE;
+    case '"': return T_DB_QUOTES;
+
+    /* multiline blocks */
+    case '(': return T_LPAREN;
+    case '[': return T_LBRACE;
+    case '{': return T_LBRACKET;
+
+    /* stfu clangd */
+    default: return T_ARBITRARY;
+  }
+}
+
+/* check for symbols */
+/* WHAT THE HEEEEEEEEEEEEEE- */
+TokenType checkDoublechar(char c, char nextC) {
+  switch (c) {
+
+    /* Logical operators */
+    case '&': if (nextC == '&') return T_AND; 
+    case '|': if (nextC == '|') return T_OR; 
+
+    /* Condtional operators */
+    case '!': if (nextC == '=') return T_ISEQUAL; 
+    case '=': if (nextC == '=') return T_ISEQUAL; 
+    case '<': if (nextC == '=') return T_LESS_EQUAL; 
+    case '>': if (nextC == '=') return T_GREATER_EQUAL; 
+
+    /* Math macros */
+    case '+': if (nextC == '=') return T_PLUS_EQUAL; 
+    case '-': if (nextC == '=') return T_MINUS_EQUAL; 
+    case '*': if (nextC == '=') return T_STAR_EQUAL; 
+    case '/': if (nextC == '=') return T_SLASH_EQUAL; 
+    case '%': if (nextC == '=') return T_PERCENT_EQUAL; 
+    
+    /* for unexpected characters */
+    default: return T_ARBITRARY;
+  }
+}
+
+TokenType checkSymbol(char c) {
+  switch (c) {
+
+    /* Single-character symbols */
     case '(': return T_LPAREN;
     case ')': return T_RPAREN;
     case '{': return T_LBRACE;
@@ -38,28 +82,38 @@ TokenType checkSymbols(char c, char nextC) {
     case ';': return T_SEMICOLON;
     case ',': return T_COMMA;
     case '.': return T_DOT;
-    case '+': return (nextC == '=') ? T_PLUS_EQUAL : T_PLUS;
-    case '-': return (nextC == '=') ? T_MINUS_EQUAL : T_MINUS;
-    case '*': return (nextC == '=') ? T_STAR_EQUAL : T_STAR;
-    case '/': return (nextC == '=') ? T_SLASH_EQUAL : T_SLASH;
-    case '%': return (nextC == '=') ? T_PERCENT_EQUAL : T_PERCENT;
-    case '&': return (nextC == '&') ? T_AND : T_AMP;
-    case '|': return (nextC == '|') ? T_OR : T_PIPE;
+
+    /* Quotes */
+    case '"': return T_DB_QUOTES;
+    case '\'': return T_QUOTE;
+
+    /* Operators */
+    case '+': return T_PLUS;
+    case '-': return T_MINUS;
+    case '*': return T_STAR;
+    case '/': return T_SLASH;
+    case '%': return T_PERCENT;
+    case '&': return T_AMP;
+    case '|': return T_PIPE;
     case '^': return T_CARET;
-    case '!': return (nextC == '=') ? T_ISDIFF : T_DIFF;
-    case '=': return (nextC == '=') ? T_ISEQUAL : T_EQUAL;
-    case '<': return (nextC == '=') ? T_LESS_EQUAL : T_LESS;
-    case '>': return (nextC == '=') ? T_GREATER_EQUAL : T_GREATER;
-    case '?': return T_QUESTION;
-    case ':': return T_COLON;
-    
+    case '!': return T_DIFF;
+    case '=': return T_EQUAL;
+    case '<': return T_LESS;
+    case '>': return T_GREATER;
+
     /* for unexpected characters */
     default: return T_ARBITRARY;
   }
 }
 
-Token *generateToken(char *source, TokenType tType) {
+Token *generateToken(char *source, TokenType tType, size_t maxSize) {
   Token *tempToken = malloc(sizeof(Token));
+  tempToken->value = calloc(maxSize, sizeof(char));
+  tempToken->type = tType;
+
+  if (!tempToken->value) {raiseError(tempToken->value, E_MALLOC, "tempToken->value malloc went wrong!");}
+  if (!tempToken) {raiseError(tempToken, E_MALLOC, "tempToken malloc went wrong!");}
+  tempToken->value = source;
 
   return tempToken;
 }
