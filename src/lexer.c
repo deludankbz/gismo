@@ -10,16 +10,9 @@
 #include "include/token.h"
 
 
-/* LEXER DECLARATIONS
- *
- * NOTE: for collect functions:
- *    sizeof() Vs strlen() - sizeof is a "compile-time function", running
- *    it multiple times (likely in a loop), could and will cause performance
- * issues as well safety issues like buffer overflow attacks.
- *
- * DONE: refactor stuff like buffer col_maxNumSize ... into their own collector
- * struct.
- *
+/* LEXER
+ * FIX:
+ *    Add support for float numbers in Collector. 
  */
 
 
@@ -28,7 +21,7 @@ Lexer *lexInit(char *source) {
   Lexer *lex = malloc(sizeof(Lexer));
   if (!lex) { raiseError(lex, E_MALLOC, "failed to allocate memory for Lexer."); }
   lex->buffer = source;
-  lex->bufferSize = strlen(lex->buffer) + 1; // sizeof buffer plus '\0'
+  lex->bufferSize = strlen(lex->buffer) + 1;
   lex->i = 0;
   lex->current = source[lex->i];
 
@@ -48,18 +41,11 @@ void lexCountedAdv(Lexer *lex, int times) {
 }
 
 
-/* COLLECTOR
+/* 
+ * COLLECTOR
  *
  * FIX:
  *    handle buffer overflow for collector functions.
- *
- * DILEMA:
- *    make a giant buffer and loop through it manually vs using free and malloc?
- *
- *    I think making a giant buffer would be better.
- *    Imagine that the buffer is the token were currently in; if we had like 10
- *    tokens per line, And 200 lines, that adds up to the overhead. imagine
- *    calling free + malloc 2000 times.
  */
 
 
@@ -77,10 +63,8 @@ Collector *collectorInit() {
   return col;
 }
 
-void *freeCollector(Collector *col) {
-  /* TODO consider changing syscalls like memset */
+void freeCollector(Collector *col) {
   for (int i = 0; i < col->colBuffSize ;i++) { col->collectorBuffer[i] = '\0'; }
-  return NULL;
 }
 
 char *collectBlock(Lexer *lex, Collector *col, char closingBlock) {
@@ -134,8 +118,8 @@ char *collectSinglechar(Lexer *lex) {
 }
 
 /* doublechar's operators */
+/* TODO: works but, at what cost? please revist this in the future. */
 char *collectDoublechar(Lexer *lex) {
-  /* NOTE: works but, at what cost? please revist this in the future. */
   char pos_doublechar[3] = { lex->current, lex->buffer[lex->i + 1], '\0' };
   
   if (strcmp(pos_doublechar, "==") == 0) { lexCountedAdv(lex, 2); return strdup(pos_doublechar);}
@@ -144,7 +128,6 @@ char *collectDoublechar(Lexer *lex) {
 
   return NULL;
 }
-
 
 char *collectKeyword(Lexer *lex, Collector *col) {
   for (int i = 0; isalpha(lex->current); i++) {
@@ -181,7 +164,6 @@ void lexer(Lexer *lex) {
   printf("\n----\n");
 
   while (!(lex->i >= lex->bufferSize + 1)) {
-    /* change to checkDoublechar */
     TokenType cmpDoublechar = checkDoublechar(lex->current, lex->buffer[lex->i + 1]);
     TokenType cmpSinglechar = checkSymbol(lex->current);
 
@@ -207,13 +189,22 @@ void lexer(Lexer *lex) {
       freeCollector(col);
       tokenCounter++;
 
+    } else if (lex->current == '"' || lex->current == '\'') {
+      char *tempBlock = collectBlock(lex, col, lex->current);
+      Token *blockToken = generateToken(strdup(tempBlock), T_STRING, (int)strlen(tempBlock) + 1);
+      addNode(newQ, tokenCounter, blockToken);
+      
+      freeCollector(col);
+      tokenCounter++;
+
     } else if (cmpDoublechar != T_ARBITRARY) { /* check if current is start of block char */
       char *tempDoublechar = collectDoublechar(lex);
-      /*Token *symbolToken = generateToken(tempSymbol, temp_cmprSymbols, strlen(tempSymbol) + 1);*/
+      Token *doublecharToken = generateToken(strdup(tempDoublechar), cmpDoublechar, (int)strlen(tempDoublechar) + 1);
+      addNode(newQ, tokenCounter, doublecharToken);
 
       if (tempDoublechar == NULL) {continue;}
 
-      printf("%s doublechar!\n", tempDoublechar);
+      /*printf("%s doublechar!\n", tempDoublechar);*/
     } else if (cmpSinglechar != T_ARBITRARY){
       /* FIX NOTE: STOP WITH THESE NASTY CASTS BRO. not. cool. dude. */
       char *tempSymbol = collectSinglechar(lex);

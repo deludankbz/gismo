@@ -25,7 +25,8 @@ static void lexCountedAdv(Lexer *lex, int times);
 void lexer(Lexer *lex);
 
 
-/* COLLECTOR 
+/* 
+ * COLLECTOR 
  * NOTE:
  *    All of these collector functions work the same way:
  *    - Loop
@@ -51,6 +52,6 @@ char *collectSinglechar(Lexer *lex);
 char *collectDoublechar(Lexer *lex);
 
 /* free collector's buffer */
-void *freeCollector(Collector *col);
+void freeCollector(Collector *col);
 
 #endif // !LEXER_H

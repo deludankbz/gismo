@@ -1,4 +1,6 @@
 y = 13 + 2;
 x = "hello world!";
-novaString = "hofosi";
+if (x == string) {
+  ...
+}
 print(x);
