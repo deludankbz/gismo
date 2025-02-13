@@ -79,7 +79,7 @@ Collector *collectorInit() {
 
 void *freeCollector(Collector *col) {
   /* TODO consider changing syscalls like memset */
-  memset(col->collectorBuffer, '\0', col->colBuffSize);
+  for (int i = 0; i < col->colBuffSize ;i++) { col->collectorBuffer[i] = '\0'; }
   return NULL;
 }
 

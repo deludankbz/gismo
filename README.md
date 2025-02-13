@@ -1,7 +1,8 @@
 # gismo
 The gismo programming language.
 
-# Status
+## Status
+### Current progress:
 - [x] Lexer - 80%
 - [ ] Parser
 - [ ] AST
