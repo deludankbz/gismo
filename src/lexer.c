@@ -19,7 +19,7 @@
 Lexer *lexInit(char *source) {
   /* lex needs to free */
   Lexer *lex = malloc(sizeof(Lexer));
-  if (!lex) { raiseError(lex, E_MALLOC, "failed to allocate memory for Lexer."); }
+  if (!lex) { free(lex); raiseError(E_MALLOC, "malloc() for Lexer interface went wrong!"); }
   lex->buffer = source;
   lex->bufferSize = strlen(lex->buffer) + 1;
   lex->i = 0;
@@ -57,8 +57,8 @@ Collector *collectorInit() {
 
   col->collectorBuffer = calloc(col->colBuffSize, sizeof(char));
 
-  if (!col->collectorBuffer) { raiseError(col->collectorBuffer, E_MALLOC, "failed to allocate memory for collectorBuffer."); }
-  if (!col) { raiseError(col, E_MALLOC, "failed to allocate memory for Collector."); }
+  if (!col->collectorBuffer) { free(col->collectorBuffer); raiseError(E_MALLOC, "failed to allocate memory for collectorBuffer."); }
+  if (!col) { free(col); raiseError(E_MALLOC, "malloc() for Collector interface went wrong!"); }
 
   return col;
 }
@@ -122,8 +122,8 @@ char *collectSinglechar(Lexer *lex) {
 char *collectDoublechar(Lexer *lex) {
   char pos_doublechar[3] = { lex->current, lex->buffer[lex->i + 1], '\0' };
   
-  if (strcmp(pos_doublechar, "==") == 0) { lexCountedAdv(lex, 2); return strdup(pos_doublechar);}
-  else if (strcmp(pos_doublechar, "!=") == 0) { lexCountedAdv(lex, 2); return strdup(pos_doublechar);}
+  if (strcmp(pos_doublechar, "==") == 0) { lexCountedAdv(lex, 2); return strdup(pos_doublechar); }
+  else if (strcmp(pos_doublechar, "!=") == 0) { lexCountedAdv(lex, 2); return strdup(pos_doublechar); }
   /* repeat boiler plate ... */
 
   return NULL;
@@ -157,9 +157,10 @@ char *collectNumber(Lexer *lex, Collector *col) {
 
 
 void lexer(Lexer *lex) {
-  Collector *col = collectorInit(); // init collector
-  if (!col) { raiseError(col, E_MALLOC, "malloc for collector went wrong!\n"); }
+  Collector *col = collectorInit();
+  if (!col) { free(col); raiseError(E_MALLOC, "collectorInit() went wrong!");}
   Queue *newQ = createQueue(); bool status = false; int tokenCounter = 1;
+  if (!newQ) { free(newQ); raiseError(E_MALLOC, "createQueue() went wrong!");}
 
   printf("\n----\n");
 

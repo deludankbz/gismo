@@ -12,7 +12,7 @@
 /* opens a file. wow! */
 char *openFile(const char *filename) {
   FILE *file = fopen(filename, "rb");
-  if (!file) { raiseWarn(E_MISSINGFILE, "no file!\n"); exit(EXIT_FAILURE); }
+  if (!file) { raiseWarn(E_MISSINGFILE, "no file named: %s!\n", filename); exit(EXIT_FAILURE); }
 
   fseek(file, 0, SEEK_END);
   /* fSize + null terminator. */
@@ -32,8 +32,7 @@ char *openFile(const char *filename) {
 
   const char *buffLooper = buffer;
   while (*buffLooper) {
-    /*printf("%c", *buffLooper);*/
-    if (*buffLooper == '\0') { raiseWarn(E_UNKOWN, "buffLooper went wrong!\n");exit(EXIT_FAILURE); }
+    if (*buffLooper == '\0') { raiseWarn(E_UNKOWN, "buffLooper went wrong!\n"); exit(EXIT_FAILURE); }
     buffLooper++;
   }
 

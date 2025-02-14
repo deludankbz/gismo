@@ -26,13 +26,14 @@ typedef struct {
 } Error;
 
 
+static void printWarn(const Error *err);
 static void printError(const Error *err);
 
 static void errTerm();
 
 /* raiseError should free the pointer given */
-void raiseError(void *address, ErrorType type, char *format, ...);
+void raiseError(ErrorType type, char *source, ...);
 
-void raiseWarn(ErrorType type, char *format, ...);
+void raiseWarn(ErrorType type, char *source, ...);
 
 #endif // ERRORS_H

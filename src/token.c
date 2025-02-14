@@ -111,8 +111,8 @@ Token *generateToken(char *source, TokenType tType, size_t maxSize) {
   tempToken->value = calloc(maxSize, sizeof(char));
   tempToken->type = tType;
 
-  if (!tempToken->value) {raiseError(tempToken->value, E_MALLOC, "tempToken->value malloc went wrong!");}
-  if (!tempToken) {raiseError(tempToken, E_MALLOC, "tempToken malloc went wrong!");}
+  if (!tempToken->value) { free(tempToken->value); raiseError(E_MALLOC, "tempToken->value malloc went wrong!"); }
+  if (!tempToken) { free(tempToken); raiseError(E_MALLOC, "tempToken malloc went wrong!"); }
   tempToken->value = source;
 
   return tempToken;
