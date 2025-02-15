@@ -220,7 +220,7 @@ void lexer(Lexer *lex) {
       printf("reached EOF!\n");
 
       free(col->collectorBuffer);
-      freeCollector(col);
+      free(col);
       return;
 
     } else {

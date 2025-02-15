@@ -1,6 +1,1 @@
-y = 13 + 2;
-x = "hello world!";
-if (x == string) {
-  ...
-}
-print(x);
+y
