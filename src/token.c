@@ -108,6 +108,7 @@ TokenType checkSymbol(char c) {
 
 Token *generateToken(char *source, TokenType tType, size_t maxSize) {
   Token *tempToken = malloc(sizeof(Token));
+  /* TODO FIX for some unknown reason this causes memory leaks */
   tempToken->value = calloc(maxSize, sizeof(char));
   tempToken->type = tType;
 
