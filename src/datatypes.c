@@ -5,6 +5,7 @@
 #include <string.h>
 #include "include/datatypes.h"
 #include "include/errors.h"
+#include "include/token.h"
 
 
 /* TOKEN STACK (QUEUE) */ 
@@ -61,7 +62,7 @@ void destroyQueue(Queue *q) {
   while (currentNode != NULL) {
     Node *temp = currentNode;
     currentNode = currentNode->next;
-    free(temp->tBuffer->value);
+    if (temp->tBuffer->type != T_EOF) {free(temp->tBuffer->value);}
     free(temp->tBuffer); free(temp);
   }
 

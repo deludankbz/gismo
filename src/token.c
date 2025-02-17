@@ -103,8 +103,8 @@ TokenType checkSymbol(char c) {
 
 Token *generateToken(char *source, TokenType tType, size_t maxSize) {
   Token *tempToken = malloc(sizeof(Token));
-  /* TODO FIX for some unknown reason this causes memory leaks */
-  tempToken->value = calloc(maxSize, sizeof(char));
+  /* TODO FIX this causes memory leaks */
+  tempToken->value = source;
   tempToken->type = tType;
 
   if (!tempToken->value) { free(tempToken->value); raiseError(E_MALLOC, "tempToken->value malloc went wrong!"); }

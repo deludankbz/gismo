@@ -134,7 +134,7 @@ char *collectKeyword(Lexer *lex, Collector *col) {
     if (i > col->colBuffSize) {
       /* handle buffer overflow */
       printf("keyword too large!\n");
-      return strdup(col->collectorBuffer);
+      return col->collectorBuffer;
     } else {
       col->collectorBuffer[i] = lex->current;
       lexAdv(lex);
@@ -215,13 +215,14 @@ void lexer(Lexer *lex) {
       lexAdv(lex);
       tokenCounter++;
     } else if (lex->current == '\0' && lex->buffer[lex->i + 1] == '\0') { /* ends program if EOF detected */
+      /*Token *eof = generateToken("\0", T_EOF, sizeof(char));*/
+      /*addNode(newQ, tokenCounter, eof);*/
+
       printQueue(newQ, &status);
       destroyQueue(newQ);
-      printf("reached EOF!\n");
 
-      free(col->collectorBuffer);
-      free(col);
-      return;
+      free(col->collectorBuffer); free(col);
+      break;
 
     } else {
       printf("'%c': unknown!\n", lex->current);
