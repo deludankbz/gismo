@@ -92,8 +92,8 @@ TokenType checkSymbol(char c);
 TokenType checkDoublechar(char c, char nextC);
 TokenType checkBlock(char c);
 
-Token *generateToken(char *source, TokenType tType, size_t maxSize);
-const char *makeToken(char *source, TokenType tType);
+Token *generateToken(char *source, TokenType tType);
+/*const char *makeToken(char *source, TokenType tType);*/
 
 static char *concat(char *source, ...);
 

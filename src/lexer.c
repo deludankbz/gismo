@@ -1,5 +1,4 @@
 #include <ctype.h>
-#include <regex.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +10,11 @@
 
 
 /* LEXER
- * FIX:
+ * TODO:
+ *    Add more doublechars (ffs)
  *    Add support for float numbers in Collector. 
+ *
+ *    Handle buffer overflow in collector functions
  */
 
 
@@ -44,7 +46,7 @@ void lexCountedAdv(Lexer *lex, int times) {
 /* 
  * COLLECTOR
  *
- * FIX:
+ * TODO:
  *    handle buffer overflow for collector functions.
  */
 
@@ -75,7 +77,7 @@ char *collectBlock(Lexer *lex, Collector *col, char closingBlock) {
     lexAdv(lex);
   }
   lexAdv(lex);
-  return strdup(col->collectorBuffer);
+  return col->collectorBuffer;
 }
 
 char *collectSinglechar(Lexer *lex) {
@@ -118,7 +120,7 @@ char *collectSinglechar(Lexer *lex) {
 }
 
 /* doublechar's operators */
-/* TODO: works but, at what cost? please revist this in the future. */
+/* TODO: works but, at what cost? please revisit this in the future. */
 char *collectDoublechar(Lexer *lex) {
   char pos_doublechar[3] = { lex->current, lex->buffer[lex->i + 1], '\0' };
   
@@ -174,7 +176,7 @@ void lexer(Lexer *lex) {
 
     } else if (isdigit(lex->current)) { /* collects numbers */
       char *tempNumber = collectNumber(lex, col);
-      Token *digitToken = generateToken(strdup(tempNumber), T_NUMBER, (int)strlen(tempNumber) + 1);
+      Token *digitToken = generateToken(strdup(tempNumber), T_NUMBER);
       addNode(newQ, tokenCounter, digitToken);
       
       /*printf("digit!\n");*/
@@ -183,7 +185,7 @@ void lexer(Lexer *lex) {
 
     } else if (isalpha(lex->current)) { /* collects keywords */
       char *tempAlpha = collectKeyword(lex, col);
-      Token *alphaToken = generateToken(strdup(tempAlpha), T_IDENTIFIER, (int)strlen(tempAlpha) + 1);
+      Token *alphaToken = generateToken(strdup(tempAlpha), T_IDENTIFIER);
       addNode(newQ, tokenCounter, alphaToken);
 
       /*printf("alpha!\n");*/
@@ -192,7 +194,7 @@ void lexer(Lexer *lex) {
 
     } else if (lex->current == '"' || lex->current == '\'') {
       char *tempBlock = collectBlock(lex, col, lex->current);
-      Token *blockToken = generateToken(strdup(tempBlock), T_STRING, (int)strlen(tempBlock) + 1);
+      Token *blockToken = generateToken(strdup(tempBlock), T_STRING);
       addNode(newQ, tokenCounter, blockToken);
       
       freeCollector(col);
@@ -200,7 +202,7 @@ void lexer(Lexer *lex) {
 
     } else if (cmpDoublechar != T_ARBITRARY) { /* check if current is start of block char */
       char *tempDoublechar = collectDoublechar(lex);
-      Token *doublecharToken = generateToken(strdup(tempDoublechar), cmpDoublechar, (int)strlen(tempDoublechar) + 1);
+      Token *doublecharToken = generateToken(strdup(tempDoublechar), cmpDoublechar);
       addNode(newQ, tokenCounter, doublecharToken);
 
       if (tempDoublechar == NULL) {continue;}
@@ -209,7 +211,7 @@ void lexer(Lexer *lex) {
     } else if (cmpSinglechar != T_ARBITRARY){
       /* FIX NOTE: STOP WITH THESE NASTY CASTS BRO. not. cool. dude. */
       char *tempSymbol = collectSinglechar(lex);
-      Token *symbolToken = generateToken(strdup(tempSymbol), cmpSinglechar, (int)strlen(tempSymbol) + 1);
+      Token *symbolToken = generateToken(strdup(tempSymbol), cmpSinglechar);
       addNode(newQ, tokenCounter, symbolToken);
 
       lexAdv(lex);

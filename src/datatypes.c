@@ -32,6 +32,7 @@ int peek(Queue *q, bool *status) {
 
 void addNode(Queue *q, int value, Token *newToken) {
   Node *newNode = malloc(sizeof(Node));
+  if (!newNode) {free(newNode); raiseError(E_MALLOC, "malloc for newNode went wrong!");}
 
   newNode->value = value;
   newNode->tBuffer = newToken;
@@ -62,6 +63,9 @@ void destroyQueue(Queue *q) {
   while (currentNode != NULL) {
     Node *temp = currentNode;
     currentNode = currentNode->next;
+    /* don't free tBuffer if it's type EOF 
+     * since it's value is stored on the stack and not on the heap
+     * we can't free it. */
     if (temp->tBuffer->type != T_EOF) {free(temp->tBuffer->value);}
     free(temp->tBuffer); free(temp);
   }
