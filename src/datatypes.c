@@ -7,12 +7,12 @@
 #include "include/errors.h"
 
 
-/* TOKEN STACK (QUEUE)
- */ 
+/* TOKEN STACK (QUEUE) */ 
 
 
 Queue *createQueue() {
   Queue *newQueue = malloc(sizeof(Queue));
+  if (!newQueue) { free(newQueue); raiseError(E_MALLOC, "malloc for newQueue went wrong!");}
 
   newQueue->head = NULL; newQueue->tail = NULL;
   newQueue->size = 0;
@@ -77,9 +77,13 @@ void printQueue(Queue *q, bool *status) {
 
     printf("TOKEN STACK:\n");
     while (currentNode != NULL) {
-      if (currentNode->tBuffer != NULL) { printf("[\x1b[ 1;95m%d\x1b[0m: ( \x1b[1;36m%d\x1b[0m : \x1b[1;32m%s\x1b[0m) ]\n", currentNode->value, currentNode->tBuffer->type, currentNode->tBuffer->value); }
+      if (currentNode->tBuffer != NULL) { 
+        printf("[\x1b[1;95m%d\x1b[0m: ( \x1b[1;36m%d\x1b[0m : \x1b[1;32m%s\x1b[0m )]\n", 
+        currentNode->value, 
+        currentNode->tBuffer->type, 
+        currentNode->tBuffer->value);
+      }
       currentNode = currentNode->next;
     }
-    /*printf("\n\n%i;%i", q->head->value, q->tail->value);*/
   }
 }

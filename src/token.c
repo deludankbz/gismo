@@ -32,11 +32,6 @@ TokenType checkBlock(char c) {
     case '\'': return T_QUOTE;
     case '"': return T_DB_QUOTES;
 
-    /* multiline blocks */
-    case '(': return T_LPAREN;
-    case '[': return T_LBRACE;
-    case '{': return T_LBRACKET;
-
     /* stfu clangd */
     default: return T_ARBITRARY;
   }
