@@ -2,8 +2,7 @@
 #define ERRORS_H
 
 
-/* ERRORS
- */
+/* ERRORS */
 
 
 #include <stdio.h>
@@ -35,5 +34,7 @@ static void errTerm();
 void raiseError(ErrorType type, char *source, ...);
 
 void raiseWarn(ErrorType type, char *source, ...);
+
+const char *genErrorText(ErrorType type, const char *fName, int line);
 
 #endif // ERRORS_H

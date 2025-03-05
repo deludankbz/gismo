@@ -19,7 +19,6 @@
 
 
 Lexer *lexInit(char *source) {
-  /* lex needs to free */
   Lexer *lex = malloc(sizeof(Lexer));
   if (!lex) { free(lex); raiseError(E_MALLOC, "malloc() for Lexer interface went wrong!"); }
   lex->buffer = source;
@@ -161,10 +160,11 @@ char *collectNumber(Lexer *lex, Collector *col) {
 void lexer(Lexer *lex) {
   Collector *col = collectorInit();
   if (!col) { free(col); raiseError(E_MALLOC, "collectorInit() went wrong!");}
+
   Queue *newQ = createQueue(); bool status = false; int tokenCounter = 1;
   if (!newQ) { free(newQ); raiseError(E_MALLOC, "createQueue() went wrong!");}
 
-  printf("\n----\n");
+  printf("----\n");
 
   while (!(lex->i >= lex->bufferSize + 1)) {
     TokenType cmpDoublechar = checkDoublechar(lex->current, lex->buffer[lex->i + 1]);
@@ -188,7 +188,6 @@ void lexer(Lexer *lex) {
       Token *alphaToken = generateToken(strdup(tempAlpha), T_IDENTIFIER);
       addNode(newQ, tokenCounter, alphaToken);
 
-      /*printf("alpha!\n");*/
       freeCollector(col);
       tokenCounter++;
 
@@ -207,7 +206,6 @@ void lexer(Lexer *lex) {
 
       if (tempDoublechar == NULL) {continue;}
 
-      /*printf("%s doublechar!\n", tempDoublechar);*/
     } else if (cmpSinglechar != T_ARBITRARY){
       /* FIX NOTE: STOP WITH THESE NASTY CASTS BRO. not. cool. dude. */
       char *tempSymbol = collectSinglechar(lex);
@@ -221,6 +219,7 @@ void lexer(Lexer *lex) {
       /*addNode(newQ, tokenCounter, eof);*/
 
       printQueue(newQ, &status);
+      printf("token iterations :: %d\n", tokenCounter);
       destroyQueue(newQ);
 
       free(col->collectorBuffer); free(col);

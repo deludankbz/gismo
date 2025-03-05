@@ -5,6 +5,8 @@
 #include "include/errors.h"
 
 /* ERRORS
+ * TODO:
+ *    makeError() so i don't write these stupid source messages. 
  */
 
 /* prints an error. how magical. */

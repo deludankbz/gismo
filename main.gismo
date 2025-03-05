@@ -1,6 +1,1 @@
-y = 13 + 2;
-x = "hello world!";
-if (x is string) {
-  ...
-}
-print(x);
+x = 69;
