@@ -5,7 +5,7 @@
 /* Example comment */
 
 int main() {
-  char *buffer = openFile("/home/deludank/Documents/Code/C/gismo/main.gismo");
+  char *buffer = openFile("/home/deludank/Documents/Code/C/gismo/main.gis");
   Lexer *lex = lexInit(buffer);
   lexer(lex);
 

@@ -164,8 +164,6 @@ void lexer(Lexer *lex) {
   Queue *newQ = createQueue(); bool status = false; int tokenCounter = 1;
   if (!newQ) { free(newQ); raiseError(E_MALLOC, "createQueue() went wrong!");}
 
-  printf("----\n");
-
   while (!(lex->i >= lex->bufferSize + 1)) {
     TokenType cmpDoublechar = checkDoublechar(lex->current, lex->buffer[lex->i + 1]);
     TokenType cmpSinglechar = checkSymbol(lex->current);
@@ -218,7 +216,7 @@ void lexer(Lexer *lex) {
       /*Token *eof = generateToken("\0", T_EOF, sizeof(char));*/
       /*addNode(newQ, tokenCounter, eof);*/
 
-      printQueue(newQ, &status);
+      /*printQueue(newQ, &status);*/
       printf("token iterations :: %d\n", tokenCounter);
       destroyQueue(newQ);
 

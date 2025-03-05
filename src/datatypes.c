@@ -74,6 +74,8 @@ void destroyQueue(Queue *q) {
 }
 
 void printQueue(Queue *q, bool *status) {
+  printf("----\n");
+
   if (isEmpty(q)) {
     *status = false; return;
   } else {
