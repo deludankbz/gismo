@@ -1,41 +1,35 @@
 #ifndef AST_H
 #define AST_H
 
+#include "token.h"
+#include <stdint.h>
+
 /* AST */
 
 typedef enum NodeType {
   PROGRAM,
-  NUMLITERAL,
+  LITERAL,
   IDENTIFIER,
-  BINARYEXPR,
+  BIN_EXPR,
 
 } NodeType;
 
-typedef struct Statement { NodeType kind; } Statement;
+typedef struct {} Stmt;
 
-typedef struct Program {
-  NodeType kind;
-  Statement **body;
-} Program;
+typedef struct {} Expr;
 
-typedef struct Expr { NodeType kind; } Expr;
+typedef struct Node {
+  struct {
+    NodeType type;
+    uint32_t numNodes;
+  };
+  Token token;
+} Node;
 
-typedef struct BinaryExpr {
-  Expr left;
-  char *opr;
-  Expr right;
-} BinaryExpr;
-
-typedef struct Identifier {
-  NodeType kind;
-  char *content;
-} Identifier;
-
-typedef struct NumericLiteral {
-  NodeType kind;
-  char *value;
-} NumericLiteral;
-
+typedef struct AST {
+  Node *nodes;
+  int numNodes;
+} AST ;
 
 static void initAST();
 

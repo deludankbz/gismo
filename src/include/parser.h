@@ -1,34 +1,20 @@
-#include "token.h"
-
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "token.h"
+
 
 /*
- * ASSOCIATIVITY:
- *    can be either:
- *
- *    left-to-right
- *    right-to-left
-*/
+  PARSER
+ */
 
+typedef struct Parser {
+  Token **tokens;   /*parsed tokens*/
+  int pos;
+} Parser ;
 
-/* acts kinda like a boolean */
-typedef enum {
+Parser *initParser();
 
-  ASSOC_LEFT,
-  ASSOC_RIGHT,
-
-} Associativity;
-
-
-typedef struct {
-
-  TokenType type;
-  int precedenceLevel;
-  Associativity assoc;
-
-} OperatorPrecedence;
-
+void Parse(Token token);
 
 #endif // !PARSER_H

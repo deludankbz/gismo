@@ -10,11 +10,19 @@
 
 
 /* LEXER
- * TODO:
- *    Add more doublechars (ffs)
- *    Add support for float numbers in Collector. 
- *
- *    Handle buffer overflow in collector functions
+    TODO:
+    Add more doublechars.
+    Handle buffer overflow in most of collector functions.
+
+    FIX:
+    Strings like '"' will cause the lexer to crash.
+
+    NOTE:
+    Floats should be handled by the parser;
+    e.g:
+        0.5 -> | 0 | . | 5 | -> parse() -> Node (float: 0.5)
+        .8 ->  | 0 | . | 8 | -> parse() -> Node (float: 0.8)
+                 ^ parser should add 0 infront of '.'
  */
 
 
@@ -216,7 +224,7 @@ void lexer(Lexer *lex) {
       /*Token *eof = generateToken("\0", T_EOF, sizeof(char));*/
       /*addNode(newQ, tokenCounter, eof);*/
 
-      /*printQueue(newQ, &status);*/
+      printQueue(newQ, &status);
       printf("token iterations :: %d\n", tokenCounter);
       destroyQueue(newQ);
 
