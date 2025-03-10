@@ -80,8 +80,12 @@ char *collectBlock(Lexer *lex, Collector *col, char closingBlock) {
   /* FIX: -  WILL CAUSE BUFFFER OVERFLOW!!! */
   lexAdv(lex);
   for (int i = 0; lex->current != closingBlock; i++) {
-    col->collectorBuffer[i] = lex->current;
-    lexAdv(lex);
+    if (lex->current != '\0') {
+      col->collectorBuffer[i] = lex->current;
+      lexAdv(lex);
+    } else {
+      return "\0";
+    }
   }
   lexAdv(lex);
   return col->collectorBuffer;
