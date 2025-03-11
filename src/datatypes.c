@@ -38,7 +38,7 @@ void addNode(Queue *q, int value, Token *newToken) {
   newNode->tBuffer = newToken;
   newNode->next = NULL;
 
-  /* special case if queue is empty */
+  /* Special case if queue is empty */
   if (isEmpty(q)) { q->head = newNode; q->tail = newNode; }
   else { q->tail->next = newNode; q->tail = newNode; }
   q->size++;
@@ -63,7 +63,7 @@ void destroyQueue(Queue *q) {
   while (currentNode != NULL) {
     Node *temp = currentNode;
     currentNode = currentNode->next;
-    /* don't free tBuffer if it's type EOF 
+    /* Don't free tBuffer if it's type EOF 
      * since it's value is stored on the stack and not on the heap
      * we can't free it. */
     if (temp->tBuffer->type != T_EOF) {free(temp->tBuffer->value);}

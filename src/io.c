@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include "include/errors.h"
 
-
 /* IO
  *
- * NOTE *openFile retuns a buffer with a double NULL terminator; it's not a bug, it's a feature 
+ * NOTE *openFile returns a buffer with a double NULL terminator; it's not a bug, it's a feature 
  */
 
 
