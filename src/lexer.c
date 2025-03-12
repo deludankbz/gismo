@@ -14,17 +14,10 @@
     Add more doublechars.
     Handle buffer overflow in most of collector functions.
 
-    FIX:
+    FIXED:
     Strings like '"' will cause the lexer to crash.
 
-    NOTE:
-    Floats should be handled by the parser;
-    e.g:
-        0.5 -> | 0 | . | 5 | -> parse() -> Node (float: 0.5)
-        .8 ->  | 0 | . | 8 | -> parse() -> Node (float: 0.8)
-                 ^ parser should add 0 infront of '.'
  */
-
 
 Lexer *lexInit(char *source) {
   Lexer *lex = malloc(sizeof(Lexer));
@@ -50,17 +43,21 @@ void lexCountedAdv(Lexer *lex, int times) {
 }
 
 
-/* 
- * COLLECTOR
- *
- * TODO:
- *    handle buffer overflow for collector functions.
- */
+/* COLLECTOR
+    TODO:
+    handle buffer overflow for collector functions.
+
+    NOTE:
+    functions with more than one raiseError will cause memory leaks since
+    they'll quit when called and whatever is below them wont get executed
+    afterwards
+*/
 
 
 Collector *collectorInit() {
   /* collector has a buffer with max size of 128 chars */
   Collector *col = malloc(sizeof(Collector));
+  /* TODO: make this mofo a global mofo */
   col->colBuffSize = 128;
   col->colLegnth = 0;
 

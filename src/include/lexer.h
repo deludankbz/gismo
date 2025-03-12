@@ -10,7 +10,7 @@ typedef struct {
   char current;       // current char
   int i;              // counter
   size_t bufferSize;  // sizeof(const char *buffer)
-  const char *buffer; // content
+  const char *buffer; // buffer content
 } Lexer;
 
 /* standard init for collector */
