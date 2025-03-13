@@ -43,7 +43,7 @@ static void lexAdv(Lexer *lex);
 static void lexCountedAdv(Lexer *lex, int times);
 
 /* actual lexer function; the biggest surely */
-Lexer *lexer(Lexer *lex);
+void lexer(Lexer *lex);
 
 void destroyLexer(Lexer *lex);
 
