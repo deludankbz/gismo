@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +23,15 @@
 Lexer *lexInit(char *source) {
   Lexer *lex = malloc(sizeof(Lexer));
   if (!lex) { free(lex); raiseError(E_MALLOC, "malloc() for Lexer interface went wrong!"); }
+
+  Collector *col = collectorInit();
+  if (!col) { free(col); raiseError(E_MALLOC, "collectorInit() went wrong!");}
+  lex->col = col;
+
+  Queue *newQ = createQueue(); bool status = false; int tokenCounter = 1;
+  if (!newQ) { free(newQ); raiseError(E_MALLOC, "createQueue() went wrong!");}
+  lex->q = newQ;
+
   lex->buffer = source;
   lex->bufferSize = strlen(lex->buffer) + 1;
   lex->i = 0;
@@ -40,6 +50,12 @@ void lexCountedAdv(Lexer *lex, int times) {
     lex->i += times;
     lex->current = lex->buffer[lex->i];
   } else (lexAdv(lex));
+}
+
+void destroyLexer(Lexer *lex) {
+  destroyQueue(lex->q);
+  free(lex->col->collectorBuffer); free(lex->col);
+  free(lex);
 }
 
 
@@ -167,11 +183,8 @@ char *collectNumber(Lexer *lex, Collector *col) {
 
 
 void lexer(Lexer *lex) {
-  Collector *col = collectorInit();
-  if (!col) { free(col); raiseError(E_MALLOC, "collectorInit() went wrong!");}
-
-  Queue *newQ = createQueue(); bool status = false; int tokenCounter = 1;
-  if (!newQ) { free(newQ); raiseError(E_MALLOC, "createQueue() went wrong!");}
+  bool status = false;
+  int tokenCounter = 1;
 
   while (!(lex->i >= lex->bufferSize + 1)) {
     TokenType cmpDoublechar = checkDoublechar(lex->current, lex->buffer[lex->i + 1]);
@@ -182,34 +195,34 @@ void lexer(Lexer *lex) {
       lexAdv(lex);
 
     } else if (isdigit(lex->current)) { /* collects numbers */
-      char *tempNumber = collectNumber(lex, col);
+      char *tempNumber = collectNumber(lex, lex->col);
       Token *digitToken = generateToken(strdup(tempNumber), T_NUMBER);
-      addNode(newQ, tokenCounter, digitToken);
+      addNode(lex->q, tokenCounter, digitToken);
       
       /*printf("digit!\n");*/
-      freeCollector(col);
+      freeCollector(lex->col);
       tokenCounter++;
 
     } else if (isalpha(lex->current)) { /* collects keywords */
-      char *tempAlpha = collectKeyword(lex, col);
+      char *tempAlpha = collectKeyword(lex, lex->col);
       Token *alphaToken = generateToken(strdup(tempAlpha), T_IDENTIFIER);
-      addNode(newQ, tokenCounter, alphaToken);
+      addNode(lex->q, tokenCounter, alphaToken);
 
-      freeCollector(col);
+      freeCollector(lex->col);
       tokenCounter++;
 
     } else if (lex->current == '"' || lex->current == '\'') {
-      char *tempBlock = collectBlock(lex, col, lex->current);
+      char *tempBlock = collectBlock(lex, lex->col, lex->current);
       Token *blockToken = generateToken(strdup(tempBlock), T_STRING);
-      addNode(newQ, tokenCounter, blockToken);
+      addNode(lex->q, tokenCounter, blockToken);
       
-      freeCollector(col);
+      freeCollector(lex->col);
       tokenCounter++;
 
     } else if (cmpDoublechar != T_ARBITRARY) { /* check if current is start of block char */
       char *tempDoublechar = collectDoublechar(lex);
       Token *doublecharToken = generateToken(strdup(tempDoublechar), cmpDoublechar);
-      addNode(newQ, tokenCounter, doublecharToken);
+      addNode(lex->q, tokenCounter, doublecharToken);
 
       if (tempDoublechar == NULL) {continue;}
 
@@ -217,28 +230,29 @@ void lexer(Lexer *lex) {
       /* FIX NOTE: STOP WITH THESE NASTY CASTS BRO. not. cool. dude. */
       char *tempSymbol = collectSinglechar(lex);
       Token *symbolToken = generateToken(strdup(tempSymbol), cmpSinglechar);
-      addNode(newQ, tokenCounter, symbolToken);
+      addNode(lex->q, tokenCounter, symbolToken);
 
       lexAdv(lex);
       tokenCounter++;
     } else if (lex->current == '\0' && lex->buffer[lex->i + 1] == '\0') { /* ends program if EOF detected */
       /*Token *eof = generateToken("\0", T_EOF, sizeof(char));*/
-      /*addNode(newQ, tokenCounter, eof);*/
+      /*addNode(lex->q, tokenCounter, eof);*/
 
-      printQueue(newQ, &status);
+      /*printQueue(lex->q, &status);*/
       printf("token iterations :: %d\n", tokenCounter);
-      destroyQueue(newQ);
-
-      free(col->collectorBuffer); free(col);
       break;
-
+      /*destroyQueue(lex->q);*/
+      /**/
+      /*free(lex->col->collectorBuffer); free(lex->col);*/
+      /*return lex;*/
     } else {
       printf("'%c': unknown!\n", lex->current);
       lexAdv(lex);
-      freeCollector(col);
+      freeCollector(lex->col);
     }
   }
   
-  /*free(col->collectorBuffer);*/
-  /*free(col);*/
+  /*free(lex->col->collectorBuffer);*/
+  /*free(lex->col);*/
+  /*return lex;*/
 }

@@ -45,7 +45,7 @@ struct parser_t {
 /* PARSER CLASS */
 /*==============*/
 
-parser_t *newParser(Queue* tokens);
+parser_t *newParser(Lexer* lex);
 
 void destroyParser(parser_t* parserObj);
 

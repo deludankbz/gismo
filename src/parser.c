@@ -1,5 +1,6 @@
-#include "include/parser.h"
 #include <stddef.h>
+#include <stdio.h>
+#include "include/parser.h"
 
 
 /* PARSER
@@ -16,17 +17,15 @@
 /* METHODS */
 /*=========*/
 
-void impl_Program(parser_t* self) {}
-void impl_NumericLiteral(parser_t* self) {
-  
-}
+void impl_Program(parser_t* self) { printf("Program was ran!\n"); }
+void impl_NumericLiteral(parser_t* self) { printf("NumericLiteral was ran!\n"); }
 
 
 /*==============*/
 /* PARSER CLASS */
 /*==============*/
 
-parser_t *newParser(Queue* tokens) {
+parser_t *newParser(Lexer *lex) {
   parser_t *newPaserObj = malloc(sizeof(parser_t));
   if (!newPaserObj) { return NULL; }
 

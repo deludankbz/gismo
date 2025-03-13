@@ -101,7 +101,7 @@ TokenType checkSymbol(char c) {
   }
 }
 
-  Token *generateToken(char *source, TokenType tType){
+Token *generateToken(char *source, TokenType tType){
   Token *tempToken = malloc(sizeof(Token));
   /* TODO FIX this causes memory leaks */
   tempToken->value = source;
