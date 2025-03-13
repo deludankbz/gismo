@@ -184,7 +184,7 @@ char *collectNumber(Lexer *lex, Collector *col) {
 
 void lexer(Lexer *lex) {
   bool status = false;
-  int tokenCounter = 1;
+  int tokenCounter = 0;
 
   while (!(lex->i >= lex->bufferSize + 1)) {
     TokenType cmpDoublechar = checkDoublechar(lex->current, lex->buffer[lex->i + 1]);
@@ -240,6 +240,7 @@ void lexer(Lexer *lex) {
 
       /*printQueue(lex->q, &status);*/
       printf("token iterations :: %d\n", tokenCounter);
+      lex->q->lenght = tokenCounter;
       break;
       /*destroyQueue(lex->q);*/
       /**/

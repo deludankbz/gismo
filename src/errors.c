@@ -35,7 +35,7 @@ void raiseError(ErrorType type, char *source, ...) {
     free(buffer); errTerm();
   } 
 
-  err->type = type; err->value = buffer; // i'll find you! you BASTARd!
+  err->type = type; err->value = buffer; /* i'll find you! you BASTARd! */
   printError(err);
 
   free(buffer); free(err);
@@ -57,7 +57,7 @@ void raiseWarn(ErrorType type, char *source, ...) {
 
   Error *err = malloc(sizeof(Error));
   if (!err) { perror("[e_inception] malloc() for Error struct went wrong!"); } 
-  err->type = type; err->value = buffer; // i'll find you! you BASTARd!
+  err->type = type; err->value = buffer; /* i'll find you! you BASTARd! */
   printWarn(err);
 
   free(buffer); free(err);

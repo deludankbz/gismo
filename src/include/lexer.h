@@ -20,10 +20,10 @@ typedef struct {
 
 
 typedef struct {
-  char current;       // current char
-  int i;              // counter
-  size_t bufferSize;  // sizeof(const char *buffer)
-  const char *buffer; // buffer content
+  char current;       /* current char */
+  int i;              /* counter */
+  size_t bufferSize;  /* sizeof(const char *buffer) */
+  const char *buffer; /* buffer content */
   
   Collector *col;
   Queue *q;
@@ -43,7 +43,7 @@ static void lexAdv(Lexer *lex);
 static void lexCountedAdv(Lexer *lex, int times);
 
 /* actual lexer function; the biggest surely */
-void lexer(Lexer *lex);
+Lexer *lexer(Lexer *lex);
 
 void destroyLexer(Lexer *lex);
 

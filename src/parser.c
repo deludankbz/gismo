@@ -18,7 +18,10 @@
 /*=========*/
 
 void impl_Program(parser_t* self) { printf("Program was ran!\n"); }
-void impl_NumericLiteral(parser_t* self) { printf("NumericLiteral was ran!\n"); }
+void impl_NumericLiteral(parser_t* self) { 
+  printf("NumericLiteral was ran!\n");
+  printf("%d", self->tokens->lenght);
+}
 
 
 /*==============*/
@@ -28,6 +31,9 @@ void impl_NumericLiteral(parser_t* self) { printf("NumericLiteral was ran!\n"); 
 parser_t *newParser(Lexer *lex) {
   parser_t *newPaserObj = malloc(sizeof(parser_t));
   if (!newPaserObj) { return NULL; }
+
+  newPaserObj->tokens = lex->q;
+  newPaserObj->current_t = lex->q->head;
 
   /* method reg */
   newPaserObj->Program = impl_Program;

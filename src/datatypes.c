@@ -17,6 +17,7 @@ Queue *createQueue() {
 
   newQueue->head = NULL; newQueue->tail = NULL;
   newQueue->size = 0;
+  newQueue->lenght = 0;
   return newQueue;
 }
 

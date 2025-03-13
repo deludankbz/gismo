@@ -19,7 +19,7 @@ typedef struct parser_t parser_t;
 
 struct parser_t {
   Queue* tokens;
-  Token* current_t;
+  Node* current_t;
 
   /* Backus-Naur Form */
   /*

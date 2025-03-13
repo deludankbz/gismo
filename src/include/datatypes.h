@@ -1,10 +1,9 @@
-#ifndef DATATYPES_H
-#define DATATYPES_H
-
 #include "token.h"
 #include <stdlib.h>
 #include <stdbool.h>
 
+#ifndef DATATYPES_H
+#define DATATYPES_H
 
 /* LINKED LIST (QUEUE)
  * TODO FIX: consider changing int value to a pointer for easier memory access & manipulation
@@ -19,6 +18,7 @@ typedef struct Node {
 
 typedef struct {
   size_t size;
+  int lenght; /* could cause poo poo shit */
   Node *head;
   Node *tail;
 } Queue;
@@ -26,7 +26,7 @@ typedef struct {
 typedef struct Buffer {
   size_t buffsize;
   size_t lenght;
-  char * buffer;
+  char *buffer;
 } Buffer;
 
 Queue *createQueue();
