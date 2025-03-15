@@ -158,7 +158,7 @@ char *collectDoublechar(Lexer *lex) {
 char *collectKeyword(Lexer *lex, Collector *col) {
   for (int i = 0; isalpha(lex->current); i++) {
     if (i > col->colBuffSize) {
-      /* handle buffer overflow */
+      /* FIX: handle buffer overflow */
       printf("keyword too large!\n");
       return col->collectorBuffer;
     } else {

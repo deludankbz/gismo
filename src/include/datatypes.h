@@ -1,9 +1,9 @@
+#ifndef DATATYPES_H
+#define DATATYPES_H
+
 #include "token.h"
 #include <stdlib.h>
 #include <stdbool.h>
-
-#ifndef DATATYPES_H
-#define DATATYPES_H
 
 /* LINKED LIST (QUEUE)
  * TODO FIX: consider changing int value to a pointer for easier memory access & manipulation

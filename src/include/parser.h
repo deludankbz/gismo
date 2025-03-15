@@ -1,8 +1,10 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "ast.h"
 #include "datatypes.h"
 #include "lexer.h"
+#include "token.h"
 
 
 /* PARSER
@@ -30,15 +32,18 @@ struct parser_t {
    * NumericLiteral:
    *  : NUMBER
    *  ;
-   */
+  */
 
   /*=========*/
   /* METHODS */
   /*=========*/
 
-  void (*Program)(parser_t *self);
-  void (*NumericLiteral)(parser_t *self);
-} ;
+  /* could return an AST_Node */
+  AST_Program (*Program)(parser_t *self);
+  AST_NumericLiteral (*NumericLiteral)(parser_t *self);
+  void (*parse)(parser_t *self);
+  void (*destroy)(parser_t *self);
+};
 
 
 /*==============*/
@@ -46,8 +51,6 @@ struct parser_t {
 /*==============*/
 
 parser_t *newParser(Lexer* lex);
-
-void destroyParser(parser_t* parserObj);
 
 #endif // !PARSER_H
 

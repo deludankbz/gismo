@@ -9,8 +9,8 @@ int main() {
   lexer(lex);
 
   parser_t *parsing = newParser(lex);
-  parsing->NumericLiteral(parsing);
+  parsing->parse(parsing);
 
-  destroyParser(parsing); destroyLexer(lex);
+  parsing->destroy(parsing); destroyLexer(lex);
   free(buffer);
 }

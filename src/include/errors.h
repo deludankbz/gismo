@@ -1,11 +1,12 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
+#include <stdio.h>
+
 
 /* ERRORS */
 
 
-#include <stdio.h>
 typedef enum {
   /* malloc & free related errors */
   E_MALLOC, E_FREE,
