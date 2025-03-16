@@ -70,12 +70,8 @@ Token *popNode(Queue *q, bool *status) {
   if (q->size == 1) { q->head = q->tail = NULL; }
   else { q->head = q->head->next; }
 
-
   Token *token = oldHead->tBuffer;
-  if (!token) { 
-    raiseWarn(E_NULLTOKEN, "nullToken @ queue->id: %d\n", oldHead->value); 
-    return NULL;
-  }
+  if (!token) { raiseWarn(E_NULLTOKEN, "nullToken @ queue->id: %d\n", oldHead->value); return NULL; }
 
   free(oldHead); q->size--;
   return token;

@@ -21,36 +21,8 @@ typedef struct parser_t parser_t;
 
 struct parser_t {
   Queue* tokens;
-  Node* current_t;
-
-  /* Backus-Naur Form */
-  /*
-   * Program
-   *  : NumericLiteral
-   *  ;
-   *
-   * NumericLiteral:
-   *  : NUMBER
-   *  ;
-  */
-
-  /*=========*/
-  /* METHODS */
-  /*=========*/
-
-  /* could return an AST_Node */
-  AST_Program (*Program)(parser_t *self);
-  AST_NumericLiteral (*NumericLiteral)(parser_t *self);
-  void (*parse)(parser_t *self);
-  void (*destroy)(parser_t *self);
+  AST_Node *root;
 };
-
-
-/*==============*/
-/* PARSER CLASS */
-/*==============*/
-
-parser_t *newParser(Lexer* lex);
 
 #endif // !PARSER_H
 

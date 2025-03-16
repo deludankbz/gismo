@@ -62,6 +62,8 @@ ASTNodeType getPrecedence(Token* token) ;
 AST_Node *parseExpression(Queue *tokens, ASTNodeType precedence);
 AST_Node *parsePrimary(Queue *q);
 
+void printAST(AST_Node *node, int indent);
 
+void destroyAST(AST_Node *node,int *count);
 
 #endif /* AST_H */

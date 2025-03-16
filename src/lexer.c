@@ -238,7 +238,7 @@ void lexer(Lexer *lex) {
       /*Token *eof = generateToken("\0", T_EOF, sizeof(char));*/
       /*addNode(lex->q, tokenCounter, eof);*/
 
-      /*printQueue(lex->q, &status);*/
+      printQueue(lex->q, &status);
       printf("token iterations :: %d\n", tokenCounter);
       lex->q->lenght = tokenCounter;
       break;

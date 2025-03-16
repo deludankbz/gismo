@@ -2,11 +2,27 @@
 #include "include/datatypes.h"
 #include "include/errors.h"
 #include "include/token.h"
+#include <stdio.h>
 
 
 bool status = false;
 
-AST_Node *newASTNode(ASTNodeType type, Token *token, AST_Node *n_left, AST_Node *n_right);
+AST_Node *newASTNode(ASTNodeType type, Token *token, AST_Node *n_left, AST_Node *n_right) {
+  AST_Node *node = malloc(sizeof(AST_Node));
+  if (!node) { raiseError(E_MALLOC, "malloc for ast->node went wrong!\n"); }
+
+  node->type = type;
+  node->content = token;
+
+  node->n_left = n_left;
+  node->n_right = n_right;
+
+  /* not handled yet */
+  node->children = (void*)0;
+
+  /*printf("newASTNode! :: [%d, %s]\n", node->type, node->content->value);*/
+  return node;
+}
 
 Token* peekNext(Queue *q) {
   if (q->head) { return q->head->tBuffer; }
@@ -34,7 +50,7 @@ ASTNodeType getPrecedence(Token* token) {
 AST_Node *parsePrimary(Queue *q) {
   Token *nToken = popNode(q, &status);
 
-  if (!nToken) { raiseError(E_NULLTOKEN, "nulltoken!\n"); }
+  if (!nToken) { raiseWarn(E_NULLTOKEN, "nulltoken!\n"); }
   switch(nToken->type) {
 
     case T_NUMBER:
@@ -61,53 +77,57 @@ AST_Node *parsePrimary(Queue *q) {
   }
 }
 
-AST_Node *parseExpression(Queue *tokens, ASTNodeType precedence) {
-  AST_Node *left = parsePrimary(tokens);
+AST_Node *parseExpression(Queue *q, ASTNodeType precedence) {
+  AST_Node *left = parsePrimary(q);
 
-  for (;;) {
+  /* probally poo poo */
+  while (1) {
+    if (isEmpty(q)) { break; }
 
-    Token *peek = peekNext(tokens);
+    Token *peek = peekNext(q);
     int tokenPrec = getPrecedence(peek);
 
     if (tokenPrec < precedence) { break; } 
-    Token *op = popNode(tokens, &status);
+    Token *op = popNode(q, &status);
 
-    AST_Node *right = parseExpression(tokens, tokenPrec + 1);
+    AST_Node *right = parseExpression(q, tokenPrec + 1);
     left = newASTNode(AST_BINARY, op, left, right);
   }
+
   return left;
 }
 
 
 void printAST(AST_Node *node, int indent) {
-    for (int i = 0; i < indent; i++) printf("  ");
-    if (!node) { printf("leaf!\n"); return; }
-    
-    switch (node->type) {
+  for (int i = 0; i < indent; i++) { printf("  "); }
+  if (!node) { printf("leaf!\n"); return; }
 
-        case AST_NUMBER:
-            printf("NUMBER(%s)\n", node->content->value);
-            break;
+  if (node->type == AST_NUMBER) {
+    printf("NUMBER(%s)\n", node->content->value);
 
-        case AST_IDENTIFIER:
-            printf("IDENTIFIER(%s)\n", node->content->value);
-            break;
+  } else if (node->type == AST_IDENTIFIER) {
+    printf("IDENTIFIER(%s)\n", node->content->value);
 
-        case AST_BINARY:
-            printf("BINARY_OP(%s)\n", node->content->value);
-            break;
+  } else if (node->type == AST_BINARY) {
+    printf("BINARY_OP(%s)\n", node->content->value);
 
-        case AST_GROUPING:
-            printf("GROUPING\n");
-            break;
+  } else if (node->type == AST_GROUPING) {
+    printf("GROUPING\n");
 
-        case AST_PREFIX:
-            printf("PREFIX(%s)\n", node->content->value);
-            break;
+  } else if (node->type == AST_PREFIX) {
+    printf("PREFIX(%s)\n", node->content->value);
+  }
 
-        default: printf("Unknown AST node type\n");
-    }
+  printf("Unknown AST node type\n");
+  printAST(node->n_left, indent + 1);
+  printAST(node->n_right, indent + 1);
+}
 
-    printAST(node->n_left, indent + 1);
-    printAST(node->n_right, indent + 1);
+void destroyAST(AST_Node *node, int *count) {
+  if (!node) { return; }
+  else {
+    *count += 1;
+    destroyAST(node->n_left, count);
+    destroyAST(node->n_right, count);
+  }
 }
