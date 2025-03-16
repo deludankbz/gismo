@@ -18,6 +18,12 @@ typedef enum {
 
   /* errors inside errors.c */
   E_INCEPTION,
+
+  /* token errors */
+  E_NULLTOKEN,
+
+  /* syntax errors */
+  E_SYNTAX,
 } ErrorType;
 
 typedef struct {

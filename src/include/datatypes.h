@@ -37,7 +37,7 @@ bool isEmpty(Queue *q);
 int peek(Queue *q, bool *status);
 
 void addNode(Queue *q, int value, Token *newToken);
-int removeNode(Queue *q, bool *status);
+Token *popNode(Queue *q, bool *status);
 void destroyQueue(Queue *q);
 
 void printQueue(Queue *q, bool *status);

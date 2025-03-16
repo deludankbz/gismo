@@ -59,6 +59,28 @@ int removeNode(Queue *q, bool *status) {
   return value;
 }
 
+/* pop the node; return token */
+Token *popNode(Queue *q, bool *status) {
+  if (isEmpty(q)) {*status = false; return NULL; }
+  *status = true;
+
+  int value = q->head->value;
+  Node *oldHead = q->head;
+
+  if (q->size == 1) { q->head = q->tail = NULL; }
+  else { q->head = q->head->next; }
+
+
+  Token *token = oldHead->tBuffer;
+  if (!token) { 
+    raiseWarn(E_NULLTOKEN, "nullToken @ queue->id: %d\n", oldHead->value); 
+    return NULL;
+  }
+
+  free(oldHead); q->size--;
+  return token;
+}
+
 void destroyQueue(Queue *q) {
   Node *currentNode = q->head;
   while (currentNode != NULL) {
